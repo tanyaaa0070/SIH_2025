@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gullak - Learn Money the Fun Way | Financial Literacy for Kids & Teens</title>
+    <meta name="description" content="Gullak makes financial literacy fun for kids and teens (ages 4-18). Interactive games, age-specific content, and real-world practice to build money skills.">
+    <meta name="author" content="Gullak">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <meta property="og:title" content="Gullak - Learn Money the Fun Way">
+    <meta property="og:description" content="Financial literacy made simple for every age group. Interactive learning for kids and teens.">
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@gullak_learn">
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="{{ url_for('index') }}" class="logo">
+                    <div class="logo-icon" style="background: none; padding: 0;">
+                        <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Gullak Logo" class="h-12 ">
+                    </div>
+                    <div class="logo-text">
+                        <h1>Gullak</h1>
+                        <p>Learn Money Smart</p>
+                    </div>
+                </a>
+
+                <nav class="nav-desktop">
+                    <a href="#home">Home</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+
+                <div class="header-actions">
+                    <a href="{{ url_for('login_choice') }}" class="btn btn-golden btn-hidden-mobile">Start Learning</a>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i data-lucide="menu" id="menuIcon"></i>
+                        <i data-lucide="x" id="closeIcon" style="display: none;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-mobile" id="mobileNav">
+                <nav>
+                    <a href="#home">Home</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="{{ url_for('login_choice') }}" class="btn btn-golden btn-full-width">Start Learning</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="hero-title">
+                            <h1>Learn Money the <span class="gradient-text">Fun Way</span> with Gullak!</h1>
+                            <p>Financial literacy made simple for every age group. <span class="highlight">Interactive games • Age-specific content • Real-world practice</span></p>
+                        </div>
+
+                        <div class="hero-buttons">
+                            <a href="{{ url_for('login_choice') }}" class="btn btn-hero">
+                                Start Learning
+                                <i data-lucide="arrow-right"></i>
+                            </a>
+                            <button class="btn btn-cream">Watch Demo</button>
+                        </div>
+
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">Happy Learners</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Interactive Games</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Age Groups</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="hero-image">
+                            <img src="{{ url_for('static', filename='img/Gullak.png') }}" alt="Gullak piggy bank">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs" class="programs">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Programs by Age Group</h2>
+                    <p>Tailored learning experiences designed specifically for each developmental stage, ensuring age-appropriate financial education that grows with your child.</p>
+                </div>
+
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon orange-gradient">
+                                <i data-lucide="gamepad-2"></i>
+                            </div>
+                            <div class="program-title">
+                                <h3>Chillar Party <span class="emoji">🎈</span></h3>
+                                <p class="age">Age 4–9</p>
+                                <p class="highlight-text">Perfect for curious little minds!</p>
+                            </div>
+                        </div>
+
+                        <div class="program-content">
+                            <div class="program-section">
+                                <h4><i data-lucide="star"></i> What You'll Learn</h4>
+                                <div class="syllabus-grid">
+                                    <div class="syllabus-item">Money basics</div>
+                                    <div class="syllabus-item">Saving</div>
+                                    <div class="syllabus-item">Sharing</div>
+                                    <div class="syllabus-item">Counting</div>
+                                    <div class="syllabus-item">Profit & Loss</div>
+                                    <div class="syllabus-item">Dos & Don'ts</div>
+                                </div>
+                            </div>
+
+                            <div class="program-section">
+                                <h4><i data-lucide="award"></i> Learning Features</h4>
+                                <div class="features-list">
+                                    <div class="feature-item">Interactive Games</div>
+                                    <div class="feature-item">Story Cartoons</div>
+                                    <div class="feature-item">Animated Videos</div>
+                                    <div class="feature-item">Quizzes & Rewards</div>
+                                </div>
+                            </div>
+
+                            <div class="program-cta">
+                                <button class="btn btn-golden btn-full-width">
+                                    Start Chillar Party
+                                    <i data-lucide="clock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon blue-gradient">
+                                <i data-lucide="brain"></i>
+                            </div>
+                            <div class="program-title">
+                                <h3>Smart Spenders <span class="emoji">💡</span></h3>
+                                <p class="age">Age 9–14</p>
+                                <p class="highlight-text">Building smart money habits!</p>
+                            </div>
+                        </div>
+
+                        <div class="program-content">
+                            <div class="program-section">
+                                <h4><i data-lucide="star"></i> What You'll Learn</h4>
+                                <div class="syllabus-grid">
+                                    <div class="syllabus-item">Cash & UPI</div>
+                                    <div class="syllabus-item">Digital Wallets</div>
+                                    <div class="syllabus-item">Budgeting</div>
+                                    <div class="syllabus-item">Investments</div>
+                                    <div class="syllabus-item">Cyber Safety</div>
+                                    <div class="syllabus-item">Banking</div>
+                                    <div class="syllabus-item">Loans</div>
+                                </div>
+                            </div>
+
+                            <div class="program-section">
+                                <h4><i data-lucide="award"></i> Learning Features</h4>
+                                <div class="features-list">
+                                    <div class="feature-item">Interactive Puzzles</div>
+                                    <div class="feature-item">Daily/Weekly Tasks</div>
+                                    <div class="feature-item">Progress Trackers</div>
+                                    <div class="feature-item">Achievement Badges</div>
+                                </div>
+                            </div>
+
+                            <div class="program-cta">
+                                <button class="btn btn-golden btn-full-width">
+                                    Start Smart Spenders
+                                    <i data-lucide="clock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon green-gradient">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <div class="program-title">
+                                <h3>Wealth Builders <span class="emoji">🚀</span></h3>
+                                <p class="age">Age 15–18</p>
+                                <p class="highlight-text">Ready for financial independence!</p>
+                            </div>
+                        </div>
+
+                        <div class="program-content">
+                            <div class="program-section">
+                                <h4><i data-lucide="star"></i> What You'll Learn</h4>
+                                <div class="syllabus-grid">
+                                    <div class="syllabus-item">Bank Accounts</div>
+                                    <div class="syllabus-item">Demat Trading</div>
+                                    <div class="syllabus-item">Mutual Funds</div>
+                                    <div class="syllabus-item">Insurance</div>
+                                    <div class="syllabus-item">Credit Score</div>
+                                    <div class="syllabus-item">Taxation</div>
+                                </div>
+                            </div>
+
+                            <div class="program-section">
+                                <h4><i data-lucide="award"></i> Learning Features</h4>
+                                <div class="features-list">
+                                    <div class="feature-item">Real Simulations</div>
+                                    <div class="feature-item">Advanced Rewards</div>
+                                    <div class="feature-item">Real-world Practice</div>
+                                    <div class="feature-item">Career Guidance</div>
+                                </div>
+                            </div>
+
+                            <div class="program-cta">
+                                <button class="btn btn-golden btn-full-width">
+                                    Start Wealth Builders
+                                    <i data-lucide="clock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="programs-bottom-cta">
+                    <div class="cta-card">
+                        <h3>Not sure which program fits your child?</h3>
+                        <p>Take our quick assessment to find the perfect learning path!</p>
+                        <button class="btn btn-hero">Take Assessment</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose Gullak?</h2>
+                    <p>Our unique approach combines proven educational methods with cutting-edge technology to create an engaging and effective learning experience.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon purple-gradient">
+                            <i data-lucide="gamepad-2"></i>
+                        </div>
+                        <h3>Gamified Learning</h3>
+                        <p>Turn financial education into fun adventures with interactive games, challenges, and storylines that keep kids engaged.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon blue-gradient">
+                            <i data-lucide="puzzle"></i>
+                        </div>
+                        <h3>Age-Specific Content</h3>
+                        <p>Carefully crafted curriculum that matches cognitive development stages, ensuring optimal learning outcomes for every age group.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon green-gradient">
+                            <i data-lucide="bar-chart-3"></i>
+                        </div>
+                        <h3>Progress Tracker</h3>
+                        <p>Visual dashboards help parents and kids track learning milestones, skill development, and financial knowledge growth.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon yellow-gradient">
+                            <i data-lucide="trophy"></i>
+                        </div>
+                        <h3>Rewards & Certifications</h3>
+                        <p>Earn badges, certificates, and rewards as you master financial concepts. Celebrate every achievement along the learning journey!</p>
+                    </div>
+                </div>
+
+                <div class="features-stats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Parent Satisfaction</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15min</div>
+                            <div class="stat-label">Daily Learning</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">85%</div>
+                            <div class="stat-label">Skill Improvement</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Learning Access</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Families Say</h2>
+                    <p>Real stories from parents who've seen their children develop strong financial habits and money management skills through Gullak.</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i data-lucide="quote"></i>
+                            <p>"Gullak transformed how my kids think about money! Emma now saves her allowance and Alex understands budgeting. The age-appropriate content is perfect."</p>
+                        </div>
+
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616c04e9e4f?w=150&h=150&fit=crop&crop=face" alt="Sarah Johnson">
+                                <div class="author-badge">
+                                    <i data-lucide="star"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Mom of Emma (8) & Alex (12)</p>
+                                
+                                <div class="rating">
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                </div>
+                                
+                                <div class="highlight-badge">Both kids love the interactive games!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i data-lucide="quote"></i>
+                            <p>"As a financial advisor, I was impressed by Gullak's curriculum. It covers everything from basic counting to complex investments in a fun, engaging way."</p>
+                        </div>
+
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Rahul Patel">
+                                <div class="author-badge">
+                                    <i data-lucide="star"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="author-info">
+                                <h4>Rahul Patel</h4>
+                                <p>Dad of Priya (6) & Arjun (15)</p>
+                                
+                                <div class="rating">
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                </div>
+                                
+                                <div class="highlight-badge">Professionally designed content</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i data-lucide="quote"></i>
+                            <p>"Kai went from spending all his money on toys to actually planning his purchases. The progress tracker helps me see his development clearly."</p>
+                        </div>
+
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Maya Chen">
+                                <div class="author-badge">
+                                    <i data-lucide="star"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="author-info">
+                                <h4>Maya Chen</h4>
+                                <p>Mom of Kai (10)</p>
+                                
+                                <div class="rating">
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                </div>
+                                
+                                <div class="highlight-badge">Amazing behavioral change!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i data-lucide="quote"></i>
+                            <p>"Both my kids are at different learning stages, and Gullak adapts perfectly. Sophie is learning about investments while Jake masters basic math with money."</p>
+                        </div>
+
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="David Wilson">
+                                <div class="author-badge">
+                                    <i data-lucide="star"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="author-info">
+                                <h4>David Wilson</h4>
+                                <p>Dad of Sophie (14) & Jake (7)</p>
+                                
+                                <div class="rating">
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                    <i data-lucide="star" class="star-filled"></i>
+                                </div>
+                                
+                                <div class="highlight-badge">Perfect for multiple age groups</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trust-indicators">
+                    <h3>Trusted by Educators & Parents</h3>
+                    <div class="trust-stats">
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <i data-lucide="star"></i>
+                            </div>
+                            <div class="trust-content">
+                                <div class="trust-number">4.9/5</div>
+                                <div class="trust-label">Parent Rating</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <span class="trust-text">K-12</span>
+                            </div>
+                            <div class="trust-content">
+                                <div class="trust-number">500+</div>
+                                <div class="trust-label">Schools Using</div>
+                            </div>
+                        </div>
+                        
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <span class="trust-text">🏆</span>
+                            </div>
+                            <div class="trust-content">
+                                <div class="trust-number">Award</div>
+                                <div class="trust-label">EdTech Excellence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i data-lucide="piggy-bank"></i>
+                        </div>
+                        <div class="footer-logo-text">
+                            <h3>Gullak</h3>
+                            <p>Learn Money Smart</p>
+                        </div>
+                    </div>
+                    
+                    <p>Making financial literacy accessible and fun for every child. Building the next generation of financially responsible individuals through engaging, age-appropriate learning experiences.</p>
+
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i data-lucide="mail"></i>
+                            <span>hello@gullak.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-lucide="phone"></i>
+                            <span>1-800-GULLAK</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-lucide="map-pin"></i>
+                            <span>Mumbai, India</span>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i data-lucide="instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i data-lucide="twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i data-lucide="facebook"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i data-lucide="linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#story">Our Story</a></li>
+                            <li><a href="#careers">Careers</a></li>
+                            <li><a href="#press">Press</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Programs</h4>
+                        <ul>
+                            <li><a href="#chillar">Chillar Party (4-9)</a></li>
+                            <li><a href="#smart">Smart Spenders (9-14)</a></li>
+                            <li><a href="#wealth">Wealth Builders (15-18)</a></li>
+                            <li><a href="#schools">School Programs</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#help">Help Center</a></li>
+                            <li><a href="#guide">Parent Guide</a></li>
+                            <li><a href="#safety">Safety & Security</a></li>
+                            <li><a href="#support">Contact Support</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#privacy">Privacy Policy</a></li>
+                            <li><a href="#terms">Terms of Service</a></li>
+                            <li><a href="#cookies">Cookie Policy</a></li>
+                            <li><a href="#child-safety">Child Safety</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content">
+                    <p>© 2024 Gullak. All rights reserved. Made with ❤️ for financially smart kids.</p>
+                    
+                    <div class="footer-badges">
+                        <span>🔒 Child-Safe Platform</span>
+                        <span>•</span>
+                        <span>📚 Educator Approved</span>
+                        <span>•</span>
+                        <span>🏆 Award Winner</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gullak - Smart Spenders (10-14)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #FFD700;
+            --secondary: #4DFFFF;
+            --light-blue: #87CEEB;
+            --mid-blue: #0077be;
+            --dark-blue: #003b5c;
+            --sand: #F0D27F;
+            --shell: #FFF5E1;
+            --pebble-1: #A5C8D6;
+            --pebble-2: #D6A5A5;
+            --pebble-3: #A5D6B2;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, var(--light-blue), var(--mid-blue), var(--dark-blue));
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            transition: background 0.5s ease;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.1s ease;
+        }
+
+        /* Aquarium Floor */
+        .aquarium-floor {
+            position: fixed;
+            bottom: -120px; /* Start hidden below the viewport */
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-color: var(--sand);
+            background-image: 
+                radial-gradient(circle at 20% 70%, rgba(255,255,255,0.3) 2px, transparent 2px),
+                radial-gradient(circle at 40% 30%, rgba(255,255,255,0.3) 2px, transparent 2px),
+                radial-gradient(circle at 60% 80%, rgba(255,255,255,0.3) 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 2px, transparent 2px);
+            background-size: 200px 200px;
+            z-index: -1;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+            transition: bottom 0.8s ease-out;
+        }
+
+        /* Sand Waves */
+        .sand-wave {
+            position: absolute;
+            bottom: 120px;
+            height: 20px;
+            width: 100%;
+            background: linear-gradient(to bottom, transparent, var(--sand));
+            border-radius: 50% 50% 0 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .sand-wave-1 {
+            bottom: 120px;
+            height: 25px;
+            transition-delay: 0.1s;
+        }
+
+        .sand-wave-2 {
+            bottom: 125px;
+            height: 15px;
+            transition-delay: 0.2s;
+        }
+
+        /* Seashells */
+        .seashell {
+            position: fixed;
+            bottom: -50px; /* Start hidden below the viewport */
+            z-index: 1;
+            font-size: 24px;
+            opacity: 0;
+            filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+            transition: all 0.8s ease-out;
+        }
+
+        .seashell-1 {
+            left: 10%;
+            transform: rotate(-30deg);
+            color: var(--shell);
+            transition-delay: 0.3s;
+        }
+
+        .seashell-2 {
+            left: 25%;
+            transform: rotate(15deg);
+            color: #FFEBCD;
+            transition-delay: 0.4s;
+        }
+
+        .seashell-3 {
+            right: 15%;
+            transform: rotate(45deg);
+            color: #F5F5DC;
+            transition-delay: 0.5s;
+        }
+
+        .seashell-4 {
+            right: 30%;
+            transform: rotate(-15deg);
+            color: #FFE4C4;
+            transition-delay: 0.6s;
+        }
+
+        /* Pebbles */
+        .pebble {
+            position: fixed;
+            bottom: -30px; /* Start hidden below the viewport */
+            width: 20px;
+            height: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            transition: all 0.8s ease-out;
+        }
+
+        .pebble-1 {
+            left: 15%;
+            background-color: var(--pebble-1);
+            transition-delay: 0.3s;
+        }
+
+        .pebble-2 {
+            left: 20%;
+            width: 25px;
+            height: 18px;
+            background-color: var(--pebble-2);
+            transition-delay: 0.4s;
+        }
+
+        .pebble-3 {
+            right: 20%;
+            background-color: var(--pebble-3);
+            transition-delay: 0.5s;
+        }
+
+        .pebble-4 {
+            right: 25%;
+            width: 22px;
+            height: 16px;
+            background-color: var(--pebble-1);
+            transition-delay: 0.6s;
+        }
+
+        .pebble-5 {
+            left: 40%;
+            width: 18px;
+            height: 14px;
+            background-color: var(--pebble-3);
+            transition-delay: 0.7s;
+        }
+
+        .pebble-6 {
+            right: 40%;
+            width: 16px;
+            height: 12px;
+            background-color: var(--pebble-2);
+            transition-delay: 0.8s;
+        }
+
+        /* Background bubbles */
+        .bubble {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        /* Cursor bubbles */
+        .cursor-bubble {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: cursor-float 2s forwards ease-out;
+        }
+
+        /* Enhanced cursor trail bubbles */
+        .cursor-trail {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: trail-float 1.5s forwards ease-out;
+        }
+
+        /* Bubble wave effect */
+        .bubble-wave {
+            position: fixed;
+            width: 100px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(10px);
+            z-index: 0;
+            pointer-events: none;
+            animation: wave-float 3s forwards ease-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cursor-float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, calc(-50% - 50px)) scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes trail-float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, calc(-50% - 30px)) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes wave-float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, calc(-50% - 100px)) scale(3);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--dark-blue);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 3px;
+            background: var(--primary);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 80px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.2);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .syllabus {
+            padding: 80px 0;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .topic {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .topic:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .topic h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic h3 i {
+            margin-right: 10px;
+        }
+
+        .quiz-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quiz-question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-option.selected {
+            background: var(--primary);
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .quiz-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            display: block;
+        }
+
+        .quiz-score {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .progress-section {
+            padding: 80px 0;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 15px;
+            width: 65%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: var(--dark-blue);
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .challenges-section {
+            padding: 80px 0;
+        }
+
+        .challenge-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .challenge-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .challenge-card p {
+            margin-bottom: 20px;
+        }
+
+        .challenge-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .challenge-progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 50px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        #game-modal {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
+        }
+
+        .modal-content {
+            background: var(--mid-blue);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            z-index: 10;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* --- START: Styles for Profit/Loss Quiz --- */
+        
+        .game-modal-content-wrapper {
+            position: relative;
+        }
+        
+        .game-modal-content-wrapper .close-modal {
+            top: 10px;
+            right: 10px;
+            color: #432b2b;
+            text-shadow: 0 0 5px white;
+        }
+
+        #game-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.85);
+            border-radius: 24px;
+            box-shadow: 0 6px 30px 0 #fceabb;
+            padding: 36px 24px 24px 24px;
+            text-align: center;
+            position: relative;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
+        }
+        #game-container h1, #game-container h2, #game-container h3 {
+            color: #ed4264;
+            text-shadow: 2px 2px #fff2c3;
+            margin-bottom: 12px;
+        }
+        #game-container .score-bar {
+            font-size: 22px;
+            color: #283c63;
+            margin-bottom: 12px;
+        }
+        #game-container .item-icon {
+            font-size: 44px;
+            vertical-align: middle;
+        }
+        #game-container .start-btn, #game-container .option-btn, #game-container .play-again-btn {
+            background: linear-gradient(105deg, #f9d423 0%, #ff4e50 100%);
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 18px 28px;
+            margin: 18px 0 6px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.15s, background 0.2s;
+            box-shadow: 0 3px 12px rgba(253,209,111,0.15);
+            display: block;
+            width: 90%;
+            margin-left: auto; margin-right: auto;
+        }
+        #game-container .option-btn {
+            font-size: 1.3em;
+            background: linear-gradient(105deg, #70e1f5 0%, #ffd194 100%);
+            color:#432b2b;
+            margin: 12px auto;
+            width: 90%;
+            transition: background 0.2s, transform 0.15s;
+        }
+        #game-container .option-btn.selected {
+            background: linear-gradient(90deg, #b06ab3 10%, #f9d423 90%);
+            color: #fff;
+            transform: scale(1.1);
+            border: 2px solid #fe7e7e;
+        }
+        #game-container .option-btn.correct {
+            background: linear-gradient(90deg, #38ef7d 10%, #11998e 90%);
+            color: #fff;
+        }
+        #game-container .option-btn.wrong {
+            background: linear-gradient(90deg, #f857a6 10%, #ff5858 90%);
+            color: #fff;
+        }
+        #game-container .result-msg {
+            font-size: 26px;
+            margin: 18px 0 12px 0;
+            transition: color 0.3s;
+        }
+        #game-container .result-msg.correct {
+            color: #38b673;
+            animation: pop-in 0.5s;
+        }
+        #game-container .result-msg.wrong {
+            color: #ed4264;
+            animation: shake 0.5s;
+        }
+        @keyframes pop-in {
+            0% {transform: scale(0.8);}
+            60% {transform: scale(1.08);}
+            100% {transform: scale(1);}
+        }
+        @keyframes shake {
+            0% {transform: translateX(0);}
+            20% {transform: translateX(-8px);}
+            40% {transform: translateX(8px);}
+            60% {transform: translateX(-8px);}
+            80% {transform: translateX(8px);}
+            100% {transform: translateX(0);}
+        }
+        #game-container .question-details {
+            font-size: 21px;
+            color: #432b2b;
+            margin: 18px 0;
+            padding: 8px 0;
+            background: rgba(255, 236, 179, 0.45);
+            border-radius: 9px;
+            display: inline-block;
+            min-width: 80%;
+        }
+        #game-container .question-item {
+            font-size: 36px;
+            margin: 6px;
+            user-select: none;
+        }
+        #game-container .end-screen {
+            animation: pop-in 0.89s;
+        }
+        #game-container .music-btn {
+            position: absolute;
+            top: 24px; right: 28px;
+            background: rgba(255,255,255,0.35);
+            border: none;
+            border-radius: 50%;
+            padding: 7px 10px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background 0.2s;
+            z-index: 2;
+        }
+        #game-container .music-btn.on { color: #ed4264;}
+        #game-container .music-btn.off { color: #432b2b;}
+        
+        /* --- END: Styles for Profit/Loss Quiz --- */
+
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Show default cursor on mobile */
+            body {
+                cursor: auto;
+            }
+            
+            .cursor, .cursor-follower {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="aquarium-floor"></div>
+    <div class="sand-wave sand-wave-1"></div>
+    <div class="sand-wave sand-wave-2"></div>
+    
+    <div class="seashell seashell-1"><i class="fas fa-shell"></i></div>
+    <div class="seashell seashell-2"><i class="fas fa-shell"></i></div>
+    <div class="seashell seashell-3"><i class="fas fa-shell"></i></div>
+    <div class="seashell seashell-4"><i class="fas fa-shell"></i></div>
+    
+    <div class="pebble pebble-1"></div>
+    <div class="pebble pebble-2"></div>
+    <div class="pebble pebble-3"></div>
+    <div class="pebble pebble-4"></div>
+    <div class="pebble pebble-5"></div>
+    <div class="pebble pebble-6"></div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('login-modal')">&times;</span>
+            <h2><i class="fas fa-lock"></i> Parent Login</h2>
+            <div style="margin: 20px 0;">
+                <input type="text" placeholder="Username" style="padding: 10px; width: 100%; margin-bottom: 15px; border-radius: 5px; border: none;">
+                <input type="password" placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 15px; border-radius: 5px; border: none;">
+                <button class="btn" style="width: 100%;">Login</button>
+            </div>
+            <p>Demo: Click anywhere to close</p>
+        </div>
+    </div>
+
+    <div class="modal" id="quiz-complete-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('quiz-complete-modal')">&times;</span>
+            <h2><i class="fas fa-trophy"></i> Quiz Complete!</h2>
+            <div style="font-size: 48px; color: var(--primary); margin: 20px 0;">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>You earned 50 coins and a new badge!</p>
+            <button class="btn" onclick="closeModal('quiz-complete-modal')">Continue Learning</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="game-modal">
+        <div class="game-modal-content-wrapper">
+            <span class="close-modal" onclick="closeModal('game-modal'); stopGameMusic();">&times;</span>
+            <div id="game-container">
+                <button class="music-btn on" id="music-toggle">🔈</button>
+                <div id="start-screen">
+                  <h1>Profit or Loss Quiz <span class="item-icon">📊</span></h1>
+                  <div style="font-size:18px;padding:14px 0;">
+                    <span class="item-icon">🍎</span>
+                    <span class="item-icon">🧸</span>
+                    <span class="item-icon">📚</span>
+                    <span class="item-icon">🍍</span>
+                  </div>
+                  <p style="color:#283c63;font-size:20px;">
+                    Help your shop grow! Choose profit, loss, or neither for each scenario.<br>
+                    Answer to earn coins and become a Super Shopkeeper!
+                  </p>
+                  <button class="start-btn" id="start-btn">Start Game</button>
+                </div>
+                <div id="quiz-screen" class="hidden">
+                  <div class="score-bar">
+                    Score: <span id="score">0</span> | Question <span id="qnum">1</span>/10
+                  </div>
+                  <div class="question-details" id="question-details">
+                  </div>
+                  <div>
+                    <button class="option-btn" id="optA"></button>
+                    <button class="option-btn" id="optB"></button>
+                    <button class="option-btn" id="optC"></button>
+                  </div>
+                  <div id="result-msg" class="result-msg hidden"></div>
+                  <button class="start-btn hidden" id="next-btn">Next</button>
+                </div>
+                <div id="end-screen" class="end-screen hidden">
+                  <h2 id="final-score"></h2>
+                  <h3 id="final-message"></h3>
+                  <button class="play-again-btn" id="play-again-btn">Play Again</button>
+                  <div style="font-size:26px;padding:12px;">
+                    <span class="item-icon">🏦</span>
+                    <span class="item-icon">🛒</span>
+                    <span class="item-icon">🧸</span>
+                    <span class="item-icon">🍍</span>
+                    <span class="item-icon">🎂</span>
+                    <span class="item-icon">📚</span>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Gullak Logo">
+            </div>
+            <div class="header-right">
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+                        <li><a href="#features"><i class="fas fa-gamepad"></i>Games</a></li>
+                        <li><a href="#syllabus"><i class="fas fa-graduation-cap"></i>Learn</a></li>
+                        <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                    </ul>
+                </nav>
+                <div class="user-profile">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80" alt="User Avatar" class="user-avatar">
+                    <span>{{ user.name or 'Tanya' }}</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Smart spenders</h1>
+            <p>Welcome! Learn to manage money through fun aquatic adventures!</p>
+            <div>
+                <a href="#" class="btn" onclick="startLearning()"><i class="fas fa-play"></i>Start Learning</a>
+                <a href="#features" class="btn btn-secondary"><i class="fas fa-info-circle"></i>Learn More</a>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <h2 class="section-title">Features</h2>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <h3>Puzzles & Quizzes</h3>
+                <p>Test your knowledge with fun financial puzzles and quizzes that adapt to your learning level.</p>
+                <button class="btn" style="margin-top: 15px;" onclick="openModal('game-modal')"><i class="fas fa-play"></i>Try Quiz</button>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                <h3>Real-Time Challenges</h3>
+                <p>Set daily spending limits and saving goals with interactive challenges that teach money management.</p>
+                <button class="btn" style="margin-top: 15px;" onclick="viewChallenges()"><i class="fas fa-play"></i>View Challenges</button>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Progress Tracking</h3>
+                <p>Watch your aquarium grow as you master financial skills and complete educational milestones.</p>
+                <button class="btn" style="margin-top: 15px;" onclick="viewProgress()"><i class="fas fa-play"></i>View Progress</button>
+            </div>
+        </section>
+
+        <section class="syllabus" id="syllabus">
+            <h2 class="section-title">What You'll Learn</h2>
+            <div class="topics">
+                <div class="topic" onclick="showTopicInfo('Forms of Money')">
+                    <h3><i class="fas fa-money-bill-wave"></i>Forms of Money</h3>
+                    <p>Cash, E-Cash, UPI, Wallets and more</p>
+                </div>
+                <div class="topic" onclick="showTopicInfo('Money Management')">
+                    <h3><i class="fas fa-balance-scale"></i>Money Management</h3>
+                    <p>Basic budgeting and allowance tracking</p>
+                </div>
+                <div class="topic" onclick="showTopicInfo('Banking Basics')">
+                    <h3><i class="fas fa-university"></i>Banking Basics</h3>
+                    <p>How banks work and different transactions</p>
+                </div>
+                <div class="topic" onclick="showTopicInfo('Cyber Safety')">
+                    <h3><i class="fas fa-shield-alt"></i>Cyber Safety</h3>
+                    <p>Safe transactions and scam awareness</p>
+                </div>
+                <div class="topic" onclick="showTopicInfo('Investment Basics')">
+                    <h3><i class="fas fa-chart-pie"></i>Investment Basics</h3>
+                    <p>Introduction to saving and growing money</p>
+                </div>
+                <div class="topic" onclick="showTopicInfo('Loans & Credit')">
+                    <h3><i class="fas fa-hand-holding-usd"></i>Loans & Credit</h3>
+                    <p>Understanding borrowing and lending</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="quiz-section" id="quiz">
+            <h2 class="section-title">Test Your Knowledge</h2>
+            <p>Take our interactive quiz to see how much you know about money management!</p>
+            <div class="quiz-container">
+                <div class="quiz-question">What is the safest way to make online payments?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this)">Share your password with parents</div>
+                    <div class="quiz-option" onclick="selectOption(this)">Use secure payment apps with authentication</div>
+                    <div class="quiz-option" onclick="selectOption(this)">Send money to anyone who asks</div>
+                    <div class="quiz-option" onclick="selectOption(this)">Use public Wi-Fi for transactions</div>
+                </div>
+                <div class="quiz-feedback incorrect">Incorrect! The right answer is: Use secure payment apps with authentication</div>
+                <div class="quiz-feedback correct">Correct! Secure payment apps with authentication are the safest way.</div>
+                <div class="quiz-score" id="quiz-score">Score: 0/0</div>
+                <button class="btn" onclick="checkAnswer()"><i class="fas fa-check-circle"></i>Submit Answer</button>
+                <button class="btn btn-secondary" onclick="resetQuiz()" style="margin-top: 10px;"><i class="fas fa-redo"></i>Reset Quiz</button>
+            </div>
+        </section>
+
+        <section class="progress-section" id="progress">
+            <h2 class="section-title">Your Progress</h2>
+            <p>Track your learning journey and watch your financial skills grow!</p>
+            <div class="progress-container">
+                <h3>Overall Learning Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill">65%</div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <h4>Badges Earned</h4>
+                        <div class="stat-value">7/12</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Quizzes Completed</h4>
+                        <div class="stat-value">15</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Days Streak</h4>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Topics Mastered</h4>
+                        <div class="stat-value">8/15</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="challenges-section" id="challenges">
+            <h2 class="section-title">Weekly Challenges</h2>
+            <p>Complete these challenges to earn rewards and boost your financial knowledge!</p>
+            <div class="challenge-cards">
+                <div class="challenge-card">
+                    <h3>Savings Challenge</h3>
+                    <p>Set a savings goal and track your progress for one week</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" style="width: 40%;"></div>
+                    </div>
+                    <p>40% completed</p>
+                    <button class="btn" onclick="continueChallenge('Savings Challenge')"><i class="fas fa-play"></i>Continue</button>
+                </div>
+                <div class="challenge-card">
+                    <h3>Budgeting Exercise</h3>
+                    <p>Create a budget for your weekly expenses</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" style="width: 20%;"></div>
+                    </div>
+                    <p>20% completed</p>
+                    <button class="btn" onclick="startChallenge('Budgeting Exercise')"><i class="fas fa-play"></i>Start</button>
+                </div>
+                <div class="challenge-card">
+                    <h3>Quiz Master</h3>
+                    <p>Complete 5 quizzes with score above 80%</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" style="width: 60%;"></div>
+                    </div>
+                    <p>60% completed</p>
+                    <button class="btn" onclick="continueChallenge('Quiz Master')"><i class="fas fa-play"></i>Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>© 2023 Gullak - Financial Education App for Children</p>
+        </footer>
+    </div>
+    
+    <audio id="correct-aud" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124b4b8f33.mp3"></audio>
+    <audio id="wrong-aud" src="https://cdn.pixabay.com/audio/2022/02/23/audio_69831b2df3.mp3"></audio>
+    <audio id="coin-aud" src="https://cdn.pixabay.com/audio/2023/08/06/audio_18472bfcac.mp3"></audio>
+    <audio id="bg-music" src="https://cdn.pixabay.com/audio/2022/07/26/audio_1212784bcc.mp3" loop></audio>
+
+    <script>
+        // --- START: Main Page Script ---
+        
+        // Quiz tracking variables
+        let quizScore = 0;
+        let quizAttempts = 0;
+        let currentQuestionAnswered = false;
+        
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles-container');
+            if (!bubblesContainer) return;
+            const numberOfBubbles = 30;
+            
+            for (let i = 0; i < numberOfBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                const size = Math.random() * 50 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}vw`;
+                bubble.style.animationDelay = `${Math.random() * 8}s`;
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+        
+        function createCursorBubble(x, y) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('cursor-bubble');
+            const size = Math.random() * 15 + 5;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${x}px`;
+            bubble.style.top = `${y}px`;
+            document.body.appendChild(bubble);
+            setTimeout(() => { bubble.remove(); }, 2000);
+        }
+        
+        function createCursorTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            const size = Math.random() * 7 + 3;
+            trail.style.width = `${size}px`;
+            trail.style.height = `${size}px`;
+            trail.style.left = `${x}px`;
+            trail.style.top = `${y}px`;
+            document.body.appendChild(trail);
+            setTimeout(() => { trail.remove(); }, 1500);
+        }
+        
+        function createBubbleWave(x, y) {
+            const wave = document.createElement('div');
+            wave.classList.add('bubble-wave');
+            wave.style.left = `${x}px`;
+            wave.style.top = `${y + 20}px`;
+            document.body.appendChild(wave);
+            setTimeout(() => { wave.remove(); }, 3000);
+        }
+        
+        function moveCursor(e) {
+            const cursor = document.querySelector('.cursor');
+            const follower = document.querySelector('.cursor-follower');
+            
+            if (cursor) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
+
+            if (follower) {
+                setTimeout(() => {
+                    follower.style.left = e.clientX + 'px';
+                    follower.style.top = e.clientY + 'px';
+                }, 50);
+            }
+            
+            if (Math.random() > 0.7) createBubbleWave(e.clientX, e.clientY);
+            if (Math.random() > 0.6) createCursorBubble(e.clientX, e.clientY);
+            if (Math.random() > 0.3) createCursorTrail(e.clientX, e.clientY);
+        }
+        
+        function toggleSandVisibility() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.body.scrollHeight;
+            const showSand = scrollPosition + windowHeight >= documentHeight - 100;
+            
+            const aquariumFloor = document.querySelector('.aquarium-floor');
+            const sandWaves = document.querySelectorAll('.sand-wave');
+            const seashells = document.querySelectorAll('.seashell');
+            const pebbles = document.querySelectorAll('.pebble');
+            
+            if (showSand) {
+                aquariumFloor.style.bottom = '0';
+                sandWaves.forEach(wave => wave.style.opacity = '1');
+                seashells.forEach(shell => {
+                    shell.style.bottom = `${20 + Math.random() * 15}px`;
+                    shell.style.opacity = '0.9';
+                });
+                pebbles.forEach(pebble => {
+                    pebble.style.bottom = `${10 + Math.random() * 10}px`;
+                    pebble.style.opacity = '1';
+                });
+            } else {
+                aquariumFloor.style.bottom = '-120px';
+                sandWaves.forEach(wave => wave.style.opacity = '0');
+                seashells.forEach(shell => {
+                    shell.style.bottom = '-50px';
+                    shell.style.opacity = '0';
+                });
+                pebbles.forEach(pebble => {
+                    pebble.style.bottom = '-30px';
+                    pebble.style.opacity = '0';
+                });
+            }
+        }
+        
+        function updateBackground() {
+            const scrollPosition = window.scrollY;
+            const documentHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercentage = scrollPosition / documentHeight;
+            
+            const blueShade = Math.floor(135 - (scrollPercentage * 100));
+            const darkBlueShade = Math.floor(126 - (scrollPercentage * 80));
+            const deeperBlueShade = Math.floor(92 - (scrollPercentage * 60));
+            const deepestBlueShade = Math.floor(60 - (scrollPercentage * 40));
+            
+            document.body.style.background = `linear-gradient(to bottom, 
+                rgb(135, 206, 235), 
+                rgb(0, 119, ${190 - blueShade}), 
+                rgb(0, 90, ${135 - darkBlueShade}), 
+                rgb(0, 59, ${92 - deeperBlueShade}))`;
+        }
+        
+        function selectOption(option) {
+            if (currentQuestionAnswered) return;
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        }
+        
+        function checkAnswer() {
+            if (currentQuestionAnswered) return;
+            const selectedOption = document.querySelector('.quiz-option.selected');
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+            const feedbackCorrect = document.querySelector('.quiz-feedback.correct');
+            const feedbackIncorrect = document.querySelector('.quiz-feedback.incorrect');
+            quizAttempts++;
+            if (selectedOption.textContent === 'Use secure payment apps with authentication') {
+                feedbackCorrect.style.display = 'block';
+                feedbackIncorrect.style.display = 'none';
+                quizScore++;
+            } else {
+                feedbackIncorrect.style.display = 'block';
+                feedbackCorrect.style.display = 'none';
+            }
+            document.getElementById('quiz-score').textContent = `Score: ${quizScore}/${quizAttempts}`;
+            currentQuestionAnswered = true;
+        }
+        
+        function resetQuiz() {
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.quiz-feedback').forEach(feedback => feedback.style.display = 'none');
+            currentQuestionAnswered = false;
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function startLearning() { alert('Starting your learning journey!'); }
+        function viewChallenges() { document.getElementById('challenges').scrollIntoView({ behavior: 'smooth' }); }
+        function viewProgress() { document.getElementById('progress').scrollIntoView({ behavior: 'smooth' }); }
+        function showTopicInfo(topicName) { alert(`This would show detailed information about ${topicName}.`); }
+        function continueChallenge(challengeName) { alert(`Continuing the ${challengeName}.`); }
+        function startChallenge(challengeName) { alert(`Starting the ${challengeName}.`); }
+        
+        window.addEventListener('load', () => {
+            createBubbles();
+            updateBackground();
+            toggleSandVisibility();
+        });
+        
+        window.addEventListener('scroll', () => {
+            updateBackground();
+            toggleSandVisibility();
+        });
+        
+        window.addEventListener('resize', updateBackground);
+        document.addEventListener('mousemove', (e) => moveCursor(e));
+        
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                for (let i = 0; i < 10; i++) createCursorBubble(e.clientX, e.clientY);
+                createBubbleWave(e.clientX, e.clientY);
+            });
+        });
+
+        // --- END: Main Page Script ---
+    </script>
+    <script>
+        // --- START: Profit/Loss Game Script ---
+        const items = [
+            {name:"toy", icon:"🧸"}, {name:"apple", icon:"🍎"}, {name:"book", icon:"📚"},
+            {name:"pineapple", icon:"🍍"}, {name:"cake", icon:"🎂"}, {name:"ball", icon:"🏀"},
+            {name:"hat", icon:"🧢"}, {name:"shirt", icon:"👕"},
+        ];
+        const scenarios = [
+            {buy:10,sell:12,item:0}, {buy:50,sell:40,item:2}, {buy:20,sell:20,item:1},
+            {buy:7,sell:13,item:3}, {buy:28,sell:22,item:4}, {buy:100,sell:120,item:6},
+            {buy:5,sell:2,item:5}, {buy:30,sell:30,item:7}, {buy:6,sell:8,item:2},
+            {buy:9,sell:8,item:7}, {buy:25,sell:18,item:0}, {buy:15,sell:17,item:1},
+            {buy:34,sell:32,item:5}, {buy:14,sell:14,item:3},
+        ];
+        let questions = [];
+        let currQ = 0;
+        let score = 0;
+
+        const playSound = (id) => {
+            try { 
+                const aud = document.getElementById(id);
+                aud.currentTime = 0; 
+                aud.play();
+            } catch(e) { console.error("Sound play failed", e); }
+        };
+
+        let musicOn = true;
+        const bgMusic = document.getElementById("bg-music");
+        
+        const musicToggleButton = document.getElementById("music-toggle");
+        if(musicToggleButton) {
+            musicToggleButton.onclick = () => {
+                musicOn = !musicOn;
+                if (musicOn) {
+                    bgMusic.volume = 0.25;
+                    bgMusic.play();
+                    musicToggleButton.classList.remove('off');
+                    musicToggleButton.classList.add('on');
+                } else {
+                    bgMusic.pause();
+                    musicToggleButton.classList.remove('on');
+                    musicToggleButton.classList.add('off');
+                }
+            };
+        }
+
+        function stopGameMusic() {
+            musicOn = false;
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            const btn = document.getElementById("music-toggle");
+            if (btn) {
+                btn.classList.remove('on');
+                btn.classList.add('off');
+            }
+        }
+        
+        const startBtn = document.getElementById("start-btn");
+        if(startBtn) {
+            startBtn.onclick = () => { startGame(); };
+        }
+        
+        const playAgainBtn = document.getElementById("play-again-btn");
+        if(playAgainBtn) {
+            playAgainBtn.onclick = () => { startGame(); };
+        }
+
+        function startGame(){
+            if (musicOn) {
+                bgMusic.volume = 0.25; 
+                bgMusic.play();
+            }
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("end-screen").classList.add("hidden");
+            document.getElementById("quiz-screen").classList.remove("hidden");
+            currQ = 0; 
+            score = 0;
+            questions = scenarios.slice();
+            for(let i = questions.length - 1; i > 0; i--){
+                let j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+            questions = questions.slice(0,10);
+            document.getElementById('score').textContent = score;
+            loadQuestion();
+        }
+
+        function loadQuestion(){
+            document.getElementById("result-msg").classList.add('hidden');
+            document.getElementById("next-btn").classList.add('hidden');
+            let q = questions[currQ];
+            document.getElementById('qnum').textContent=currQ+1;
+            let details = `You bought a ${items[q.item].icon} <b>${items[q.item].name}</b> for <span style="color:#ed4264;font-weight:bold">${q.buy} coins</span> and sold it for <span style="color:#38ef7d;font-weight:bold">${q.sell} coins</span>.<br><b>Is this:</b>`;
+            document.getElementById('question-details').innerHTML = details;
+            
+            let answer;
+            if(q.buy < q.sell) answer="Profit";
+            else if(q.buy > q.sell) answer="Loss";
+            else answer="Neither";
+            
+            let optionsArr = [`Profit`, `Loss`, `Neither`];
+            shuffle(optionsArr);
+
+            let optIds = ['optA','optB','optC'];
+            for(let i=0; i<3; i++){
+                let el = document.getElementById(optIds[i]);
+                el.textContent = optionsArr[i];
+                el.className='option-btn';
+                el.onclick = ()=>selectOption(optionsArr[i], answer, q.buy, q.sell);
+                el.disabled = false;
+            }
+        }
+
+        function selectOption(selected, answer, buy, sell){
+            for(let i of ['optA','optB','optC']){
+                let el = document.getElementById(i);
+                el.disabled=true;
+                el.classList.remove('selected');
+                if(el.textContent === selected) el.classList.add('selected');
+            }
+            
+            let resMsg = document.getElementById("result-msg");
+            let diff = Math.abs(buy-sell);
+            
+            if(selected === answer){ 
+                score+=10;
+                playSound("correct-aud");
+                playSound("coin-aud");
+                resMsg.textContent = `🎉 Correct! You made a ${answer.toLowerCase()} of ${diff} coins!`;
+                resMsg.className = "result-msg correct";
+                document.getElementById('score').textContent = score;
+                for(let i of ['optA','optB','optC']){
+                    let el = document.getElementById(i);
+                    if(el.textContent === selected) el.classList.add('correct');
+                }
+            } else { 
+                playSound("wrong-aud");
+                let wrongType = (buy===sell) ? "no profit or loss" : ((answer==="Profit") ? "profit" : "loss");
+                resMsg.textContent = `❌ Oops! That’s a ${wrongType} of ${diff} coins!`;
+                resMsg.className = "result-msg wrong";
+                for(let i of ['optA','optB','optC']){
+                    let el=document.getElementById(i);
+                    if(el.textContent===selected) el.classList.add('wrong');
+                }
+            }
+            resMsg.classList.remove('hidden');
+            
+            const nextButton = document.getElementById("next-btn");
+            nextButton.textContent = (currQ === 9) ? "Finish" : "Next";
+            nextButton.classList.remove("hidden");
+            nextButton.onclick = ()=>{
+                currQ++;
+                if(currQ >= 10){
+                    showEndScreen();
+                } else {
+                    loadQuestion();
+                }
+            };
+        }
+
+        function showEndScreen(){
+            document.getElementById("quiz-screen").classList.add("hidden");
+            document.getElementById("end-screen").classList.remove("hidden");
+            document.getElementById("final-score").textContent = `Your Score: ${score} coins`;
+            let msg = "";
+            if(score >= 80) msg = "Amazing! You are a Super Shopkeeper 🏆";
+            else if(score >= 40) msg = "Great! You’re learning money smartness 💡";
+            else msg = "Good try! Practice makes you a saving hero 💪";
+            document.getElementById("final-message").textContent = msg;
+        }
+
+        function shuffle(arr){
+            for(let i=arr.length-1; i>0; i--){
+                let j=Math.floor(Math.random()*(i+1));
+                [arr[i],arr[j]]=[arr[j],arr[i]];
+            }
+        }
+        // --- END: Profit/Loss Game Script ---
+    </script>
+</body>
+</html>

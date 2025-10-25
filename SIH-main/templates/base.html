@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gullak - Financial Education App{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .float-animation { animation: float 3s ease-in-out infinite; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .fantasy-bg {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #6366f1 100%);
+        }
+        
+        .superhero-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #14b8a6 100%);
+        }
+        
+        .space-bg {
+            background: linear-gradient(135deg, #1e1b4b 0%, #6366f1 50%, #ec4899 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    {% block content %}{% endblock %}
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash-messages" class="fixed top-4 right-4 z-50">
+                {% for message in messages %}
+                    <div class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg mb-2 animate-pulse">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                setTimeout(() => {
+                    document.getElementById('flash-messages').style.display = 'none';
+                }, 5000);
+            </script>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

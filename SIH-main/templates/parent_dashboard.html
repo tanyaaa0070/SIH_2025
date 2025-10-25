@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gullak - Parent Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2F4157; /* Navy */
+            --secondary: #C8D9E6; /* Sky Blue */
+            --accent1: #FEE1E6; /* Pale Pink */
+            --accent2: #F7C9DA; /* Azalea */
+            --neutral: #F5EEEB; /* Beige */
+            --text-dark: #2F4157; /* Dark Navy for headings */
+            --text-body: #6C6C6C; /* Neutral Gray for body text */
+            --text-white: #FFFFFF; /* White for contrast text */
+            --success: #4CAF50; /* Fresh Green */
+            --warning: #FFB74D; /* Amber */
+            --error: #E57373; /* Soft Red */
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--neutral);
+            color: var(--text-body);
+            line-height: 1.6;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            background-color: var(--primary);
+            color: var(--text-white);
+            border-radius: var(--border-radius);
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: var(--text-white);
+        }
+        
+        .logo h1 {
+            font-weight: 700;
+            color: var(--text-white);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--accent2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .welcome-message {
+            background: var(--primary);
+            color: var(--text-white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--secondary);
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            background: var(--primary);
+        }
+        
+        .subject-list {
+            list-style: none;
+        }
+        
+        .subject-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .subject-item:last-child {
+            border-bottom: none;
+        }
+        
+        .score {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+        
+        .score i {
+            color: var(--warning);
+        }
+        
+        .habits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .habit-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: var(--secondary);
+        }
+        
+        .habit-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 5px 0;
+            color: var(--primary);
+        }
+        
+        .habit-label {
+            font-size: 14px;
+            color: var(--text-body);
+        }
+        
+        .strength {
+            color: var(--success);
+        }
+        
+        .weakness {
+            color: var(--error);
+        }
+        
+        .insight-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+        
+        .controls-list {
+            list-style: none;
+        }
+        
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .control-item:last-child {
+            border-bottom: none;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .recommendation {
+            padding: 12px;
+            background-color: var(--accent1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendation i {
+            color: var(--primary);
+        }
+        
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+        }
+        
+        .badge {
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .badge-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .badge-name {
+            font-size: 12px;
+            color: var(--text-body);
+        }
+        
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-white);
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-item.active, .nav-item:hover {
+            opacity: 1;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent2);
+            color: var(--primary);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1f2d3d;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-body);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+        }
+        
+        .btn-submit {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .notification-toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--accent1);
+            color: var(--primary);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .notification-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* New styles for additional sections */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--accent2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 40px;
+            margin: 0 auto 15px;
+        }
+        
+        .profile-details {
+            list-style: none;
+        }
+        
+        .profile-details li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .profile-details li:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .rewards-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .reward-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .reward-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .reward-details {
+            flex-grow: 1;
+        }
+        
+        .reward-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        
+        .reward-date {
+            font-size: 12px;
+            color: var(--text-body);
+        }
+        
+        .reward-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .btn-view {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-redeem {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .habits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-piggy-bank"></i>
+                <h1>Gullak</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div>
+                    <div>Anita Sharma</div>
+                    <div style="font-size: 12px; color: var(--secondary);">Parent Account</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Home/Dashboard Section -->
+        <div id="home-section" class="section active">
+            <div class="welcome-message">
+                <h2>Hi Anita, let's grow your child's money skills today!</h2>
+                <p>Track progress, set goals, and encourage good financial habits</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Progress Reports Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Progress Reports</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Overall Progress</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <p>75% complete</p>
+                        
+                        <h4 style="margin-top: 20px;">Subject-wise Progress</h4>
+                        <ul class="subject-list">
+                            <li class="subject-item">
+                                <span>Money Basics</span>
+                                <span class="score"><i class="fas fa-star"></i> 85%</span>
+                            </li>
+                            <li class="subject-item">
+                                <span>Savings</span>
+                                <span class="score"><i class="fas fa-star"></i> 92%</span>
+                            </li>
+                            <li class="subject-item">
+                                <span>Banking</span>
+                                <span class="score"><i class="fas fa-star"></i> 65%</span>
+                            </li>
+                            <li class="subject-item">
+                                <span>Budgeting</span>
+                                <span class="score"><i class="fas fa-star"></i> 78%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Financial Habits Tracker Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Financial Habits</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="habits-grid">
+                        <div class="habit-item">
+                            <div class="habit-label">Virtual Money Saved</div>
+                            <div class="habit-value">₹1,250</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="habit-label">Virtual Money Spent</div>
+                            <div class="habit-value">₹780</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 20px 0 10px;">Habits Formed</h4>
+                    <ul class="subject-list">
+                        <li class="subject-item">
+                            <span>Weekly Budgeting</span>
+                            <span class="strength">Good</span>
+                        </li>
+                        <li class="subject-item">
+                            <span>Quiz Attempts</span>
+                            <span class="strength">Excellent</span>
+                        </li>
+                        <li class="subject-item">
+                            <span>Cyber Safety</span>
+                            <span class="weakness">Needs Improvement</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Engagement Insights Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Engagement Insights</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="insight-item">
+                            <span>Time Spent This Week</span>
+                            <span><strong>3.5 hours</strong></span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Activities Completed</span>
+                            <span><strong>12/18</strong></span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Average in Age Group</span>
+                            <span>2.8 hours</span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Comparison</span>
+                            <span class="strength">+25%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Parental Controls Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Parental Controls</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                    </div>
+                    <ul class="controls-list">
+                        <li class="control-item">
+                            <span>Daily Screen Time Limit</span>
+                            <span>1 hour</span>
+                        </li>
+                        <li class="control-item">
+                            <span>Weekly Learning Goals</span>
+                            <span>3 chapters</span>
+                        </li>
+                        <li class="control-item">
+                            <span>Milestone Notifications</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="control-item">
+                            <span>Spending Alerts</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Recommendations Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recommendations</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="recommendation">
+                            <i class="fas fa-book"></i>
+                            <span>Try the "Cyber Safety" story to improve online security knowledge</span>
+                        </div>
+                        <div class="recommendation">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Play the "Budget Challenge" game to reinforce budgeting skills</span>
+                        </div>
+                        <div class="recommendation">
+                            <i class="fas fa-comments"></i>
+                            <span>Discuss needs vs. wants during your next shopping trip</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Rewards Monitoring Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Rewards & Badges</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                            <span>Total Coins Earned</span>
+                            <span><strong>1,250</strong></span>
+                        </div>
+                        
+                        <h4>Badges Earned</h4>
+                        <div class="badge-grid">
+                            <div class="badge">
+                                <div class="badge-icon">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <div class="badge-name">Super Saver</div>
+                            </div>
+                            <div class="badge">
+                                <div class="badge-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="badge-name">Quiz Master</div>
+                            </div>
+                            <div class="badge">
+                                <div class="badge-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="badge-name">Goal Getter</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button class="btn-primary" id="giveRewardBtn">
+                                <i class="fas fa-gift"></i> Give Custom Reward
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Section (Detailed Analytics) -->
+        <div id="dashboard-section" class="section">
+            <div class="welcome-message">
+                <h2>Detailed Analytics</h2>
+                <p>Track your child's progress with detailed reports and insights</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Progress Over Time Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Progress Over Time</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                    </div>
+                    <div style="height: 200px; display: flex; align-items: flex-end; gap: 15px; padding: 20px 0;">
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                            <div style="background: var(--primary); width: 30px; height: 60%; border-radius: 5px;"></div>
+                            <div style="margin-top: 10px; font-size: 12px;">Week 1</div>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                            <div style="background: var(--primary); width: 30px; height: 75%; border-radius: 5px;"></div>
+                            <div style="margin-top: 10px; font-size: 12px;">Week 2</div>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                            <div style="background: var(--primary); width: 30px; height: 65%; border-radius: 5px;"></div>
+                            <div style="margin-top: 10px; font-size: 12px;">Week 3</div>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                            <div style="background: var(--primary); width: 30px; height: 85%; border-radius: 5px;"></div>
+                            <div style="margin-top: 10px; font-size: 12px;">Week 4</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity Breakdown Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Activity Breakdown</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                    </div>
+                    <div style="height: 200px; display: flex; justify-content: center; align-items: center;">
+                        <div style="width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(
+                            var(--primary) 0% 40%, 
+                            var(--secondary) 40% 70%, 
+                            var(--accent2) 70% 90%,
+                            var(--accent1) 90% 100%
+                        );"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 15px; height: 15px; background: var(--primary); margin-right: 5px; border-radius: 3px;"></div>
+                            <span>Lessons</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 15px; height: 15px; background: var(--secondary); margin-right: 5px; border-radius: 3px;"></div>
+                            <span>Games</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 15px; height: 15px; background: var(--accent2); margin-right: 5px; border-radius: 3px;"></div>
+                            <span>Quizzes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weekly Goals Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Weekly Goals</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Complete 5 activities</span>
+                            <span class="strength">Completed</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 15px 0 10px;">
+                            <span>Earn 200 coins</span>
+                            <span class="strength">Completed</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 15px 0 10px;">
+                            <span>Spend less than 100 coins</span>
+                            <span class="weakness">Not Met</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Learning Patterns Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Learning Patterns</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="insight-item">
+                            <span>Peak Learning Time</span>
+                            <span><strong>4-5 PM</strong></span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Favorite Activity</span>
+                            <span><strong>Budget Game</strong></span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Retention Rate</span>
+                            <span><strong>82%</strong></span>
+                        </div>
+                        <div class="insight-item">
+                            <span>Improvement Areas</span>
+                            <span><strong>Banking Terms</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rewards Section -->
+        <div id="rewards-section" class="section">
+            <div class="welcome-message">
+                <h2>Rewards & Incentives</h2>
+                <p>Manage rewards and incentives for your child's achievements</p>
+            </div>
+            
+            <div class="rewards-header">
+                <h3>Available Rewards</h3>
+                <button class="btn-primary" style="width: auto;">
+                    <i class="fas fa-plus"></i> Create New Reward
+                </button>
+            </div>
+            
+            <div>
+                <div class="reward-item">
+                    <div class="reward-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="reward-details">
+                        <div class="reward-title">30 Minutes Extra Screen Time</div>
+                        <div class="reward-date">Cost: 150 coins</div>
+                    </div>
+                    <div class="reward-actions">
+                        <button class="btn-small btn-view">Edit</button>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <div class="reward-details">
+                        <div class="reward-title">Ice Cream Treat</div>
+                        <div class="reward-date">Cost: 200 coins</div>
+                    </div>
+                    <div class="reward-actions">
+                        <button class="btn-small btn-view">Edit</button>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="reward-details">
+                        <div class="reward-title">Movie Night</div>
+                        <div class="reward-date">Cost: 300 coins</div>
+                    </div>
+                    <div class="reward-actions">
+                        <button class="btn-small btn-view">Edit</button>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin: 30px 0 20px;">Reward History</h3>
+            
+            <div>
+                <div class="reward-item">
+                    <div class="reward-icon" style="background-color: var(--success);">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="reward-details">
+                        <div class="reward-title">Custom Reward: Book</div>
+                        <div class="reward-date">Redeemed: Yesterday</div>
+                    </div>
+                    <div class="reward-actions">
+                        <button class="btn-small btn-view">Details</button>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon" style="background-color: var(--success);">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="reward-details">
+                        <div class="reward-title">Extra Screen Time</div>
+                        <div class="reward-date">Redeemed: 3 days ago</div>
+                    </div>
+                    <div class="reward-actions">
+                        <button class="btn-small btn-view">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div id="profile-section" class="section">
+            <div class="welcome-message">
+                <h2>Your Profile</h2>
+                <p>Manage your account and child's settings</p>
+            </div>
+            
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">A</div>
+                        <h3>Anita Sharma</h3>
+                        <p>Parent Account</p>
+                    </div>
+                    
+                    <ul class="profile-details">
+                        <li>
+                            <span class="detail-label">Email:</span>
+                            <span>anita.sharma@example.com</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Phone:</span>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Member Since:</span>
+                            <span>Jan 15, 2023</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Subscription:</span>
+                            <span class="strength">Premium</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Child Profile</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--accent2); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; margin-right: 15px;">
+                            R
+                        </div>
+                        <div>
+                            <h3>Rohan Sharma</h3>
+                            <p>Age: 9 years</p>
+                        </div>
+                    </div>
+                    
+                    <ul class="profile-details">
+                        <li>
+                            <span class="detail-label">Grade Level:</span>
+                            <span>4th Grade</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Learning Pace:</span>
+                            <span>Moderate</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Interests:</span>
+                            <span>Games, Stories</span>
+                        </li>
+                        <li>
+                            <span class="detail-label">Account Status:</span>
+                            <span class="strength">Active</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-user-edit"></i> Edit Child Profile
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 25px;">
+                <div class="card-header">
+                    <h3 class="card-title">Account Settings</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+                
+                <ul class="controls-list">
+                    <li class="control-item">
+                        <span>Email Notifications</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li class="control-item">
+                        <span>Push Notifications</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li class="control-item">
+                        <span>Monthly Reports</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li class="control-item">
+                        <span>Data Sharing for Improvement</span>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-bottom">
+        <a href="#" class="nav-item active" data-section="home-section">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" data-section="dashboard-section">
+            <i class="fas fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-section="rewards-section">
+            <i class="fas fa-trophy"></i>
+            <span>Rewards</span>
+            <span class="notification-badge">3</span>
+        </a>
+        <a href="#" class="nav-item" data-section="profile-section">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- Reward Modal -->
+    <div class="modal" id="rewardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Give Custom Reward</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="rewardType">Reward Type</label>
+                <select id="rewardType">
+                    <option value="coin">Virtual Coins</option>
+                    <option value="badge">Special Badge</option>
+                    <option value="activity">Special Activity</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rewardAmount">Amount/Value</label>
+                <input type="number" id="rewardAmount" placeholder="Enter amount" value="100">
+            </div>
+            <div class="form-group">
+                <label for="rewardMessage">Encouragement Message</label>
+                <input type="text" id="rewardMessage" placeholder="Great job! Keep it up!">
+            </div>
+            <button class="btn-submit" id="submitReward">Give Reward</button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Reward sent successfully!</span>
+    </div>
+
+    <script>
+        // Dummy data for demonstration
+        const dummyData = {
+            childName: "Rohan",
+            weeklyProgress: 75,
+            subjects: [
+                { name: "Money Basics", progress: 85 },
+                { name: "Savings", progress: 92 },
+                { name: "Banking", progress: 65 },
+                { name: "Budgeting", progress: 78 }
+            ],
+            moneySaved: 1250,
+            moneySpent: 780,
+            habits: [
+                { name: "Weekly Budgeting", status: "Good" },
+                { name: "Quiz Attempts", status: "Excellent" },
+                { name: "Cyber Safety", status: "Needs Improvement" }
+            ],
+            engagement: {
+                timeSpent: "3.5 hours",
+                activitiesCompleted: "12/18",
+                averageTime: "2.8 hours",
+                comparison: "+25%"
+            },
+            badges: [
+                { name: "Super Saver", icon: "fa-piggy-bank" },
+                { name: "Quiz Master", icon: "fa-brain" },
+                { name: "Goal Getter", icon: "fa-check-circle" }
+            ]
+        };
+
+        // DOM Elements
+        const rewardModal = document.getElementById('rewardModal');
+        const giveRewardBtn = document.getElementById('giveRewardBtn');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const submitRewardBtn = document.getElementById('submitReward');
+        const notificationToast = document.getElementById('notificationToast');
+        const toastMessage = document.getElementById('toastMessage');
+        const navItems = document.querySelectorAll('.nav-item');
+        const switches = document.querySelectorAll('.switch input');
+        const badges = document.querySelectorAll('.badge');
+        const sections = document.querySelectorAll('.section');
+
+        // Initialize dashboard with dummy data
+        function initializeDashboard() {
+            // Update progress bars
+            document.querySelector('.progress-fill').style.width = `${dummyData.weeklyProgress}%`;
+            document.querySelector('.progress-bar + p').textContent = `${dummyData.weeklyProgress}% complete`;
+            
+            // Update subject progress
+            const subjectItems = document.querySelectorAll('.subject-item');
+            dummyData.subjects.forEach((subject, index) => {
+                if (subjectItems[index]) {
+                    subjectItems[index].querySelector('.score').innerHTML = `<i class="fas fa-star"></i> ${subject.progress}%`;
+                }
+            });
+            
+            // Update money values
+            document.querySelector('.habit-item:nth-child(1) .habit-value').textContent = `₹${dummyData.moneySaved}`;
+            document.querySelector('.habit-item:nth-child(2) .habit-value').textContent = `₹${dummyData.moneySpent}`;
+            
+            // Update engagement data
+            const insightItems = document.querySelectorAll('.insight-item');
+            insightItems[0].querySelector('strong').textContent = dummyData.engagement.timeSpent;
+            insightItems[1].querySelector('strong').textContent = dummyData.engagement.activitiesCompleted;
+            insightItems[2].querySelector('span:last-child').textContent = dummyData.engagement.averageTime;
+            insightItems[3].querySelector('span:last-child').textContent = dummyData.engagement.comparison;
+            
+            // Update welcome message with child's name
+            document.querySelector('.welcome-message h2').textContent = 
+                `Hi Anita, let's grow ${dummyData.childName}'s money skills today!`;
+        }
+
+        // Navigation functionality
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSection = this.getAttribute('data-section');
+                
+                // Update active navigation item
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show the corresponding section
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+
+        // Event Listeners
+        giveRewardBtn.addEventListener('click', () => {
+            rewardModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            rewardModal.style.display = 'none';
+        });
+
+        submitRewardBtn.addEventListener('click', () => {
+            const rewardType = document.getElementById('rewardType').value;
+            const rewardAmount = document.getElementById('rewardAmount').value;
+            const rewardMessage = document.getElementById('rewardMessage').value || 'Great job! Keep it up!';
+            
+            // Show notification
+            toastMessage.textContent = `You gave ${dummyData.childName} ${rewardAmount} ${rewardType === 'coin' ? 'coins' : rewardType === 'badge' ? 'badge' : 'activity'}!`;
+            notificationToast.classList.add('show');
+            
+            // Close modal
+            rewardModal.style.display = 'none';
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notificationToast.classList.remove('show');
+            }, 3000);
+        });
+
+        // Close modal if clicked outside
+        window.addEventListener('click', (event) => {
+            if (event.target === rewardModal) {
+                rewardModal.style.display = 'none';
+            }
+        });
+
+        // Toggle switches
+        switches.forEach(sw => {
+            sw.addEventListener('change', function() {
+                const parent = this.closest('.control-item');
+                const controlType = parent.querySelector('span').textContent;
+                
+                if (this.checked) {
+                    showNotification(`${controlType} enabled`);
+                } else {
+                    showNotification(`${controlType} disabled`);
+                }
+            });
+        });
+
+        // Badge click events
+        badges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                const badgeName = this.querySelector('.badge-name').textContent;
+                showNotification(`${badgeName} badge details`);
+            });
+        });
+
+        // Show notification function
+        function showNotification(message) {
+            toastMessage.textContent = message;
+            notificationToast.classList.add('show');
+            
+            setTimeout(() => {
+                notificationToast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize the dashboard when page loads
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealth Builders - Financial Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0a0e17;
+            --secondary: #1a243a;
+            --accent: #6e3bff;
+            --accent-light: #8c6bff;
+            --text: #ffffff;
+            --text-secondary: #b0b7c9;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(1.1) contrast(1.1); /* Enhanced video clarity */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 23, 0.75); /* Reduced opacity for better video visibility */
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: linear-gradient(to right, rgba(10, 14, 23, 0.8), rgba(26, 36, 58, 0.8));
+            padding: 15px 0;
+            border-bottom: 1px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-light);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .user-profile:hover {
+            transform: scale(1.05);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .hero {
+            padding: 100px 0 70px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #ffffff, #8c6bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(110, 59, 255, 0.3);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: rgba(26, 36, 58, 0.7); /* More transparent for video visibility */
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .module-card {
+            background: rgba(26, 36, 58, 0.7); /* More transparent for video visibility */
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .module-header {
+            padding: 20px;
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+            text-align: center;
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .module-body {
+            padding: 20px;
+        }
+
+        .module-desc {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .start-module {
+            display: block;
+            width: 100%;
+            background: rgba(110, 59, 255, 0.2);
+            color: var(--accent-light);
+            border: 1px solid var(--accent);
+            padding: 8px 0;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .start-module:hover {
+            background: rgba(110, 59, 255, 0.4);
+        }
+
+        .tax-section {
+            background: linear-gradient(to right, rgba(26, 36, 58, 0.7), rgba(10, 14, 23, 0.7)); /* More transparent */
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tax-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tax-title {
+            font-size: 1.8rem;
+        }
+
+        .tax-progress {
+            text-align: right;
+        }
+
+        .progress-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+
+        .tax-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .tax-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .tax-image {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="40" y="40" width="120" height="120" fill="none" stroke="%236e3bff" stroke-width="8" /><path d="M60 60 L140 140 M140 60 L60 140" stroke="%236e3bff" stroke-width="8" /></svg>') no-repeat center center;
+            background-size: contain;
+        }
+
+        .final-cta {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(26, 36, 58, 0.7); /* More transparent */
+            border-radius: 15px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: rgba(26, 36, 58, 0.7); /* More transparent */
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 40px;
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .badges-section {
+            margin: 60px 0;
+        }
+
+        .badges-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .badge {
+            background: rgba(26, 36, 58, 0.7); /* More transparent */
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        .badge-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .badge-title {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .badge.locked {
+            opacity: 0.5;
+        }
+
+        .simulation-section {
+            background: rgba(26, 36, 58, 0.7); /* More transparent */
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Video controls */
+        .video-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            background: rgba(26, 36, 58, 0.8);
+            padding: 10px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .video-control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .video-control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Quiz modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(110, 59, 255, 0.5);
+            position: relative;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Notification system */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* Achievement animation */
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+        
+        /* Trading Simulator Styles */
+        .trading-simulator {
+            background: rgba(26, 36, 58, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .simulator-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .simulator-header h2 {
+            font-size: 2.2rem;
+            color: var(--accent-light);
+            margin-bottom: 10px;
+        }
+        
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .portfolio-panel, .stock-panel, .insights-panel {
+            background: rgba(10, 14, 23, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            color: var(--accent-light);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .portfolio-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .portfolio-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .portfolio-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .portfolio-value {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .holdings-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .holding-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .holding-info {
+            flex: 1;
+        }
+        
+        .holding-symbol {
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+        
+        .holding-name {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        .holding-quantity {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        .holding-values {
+            text-align: right;
+        }
+        
+        .current-price {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .current-value {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .profit-loss {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .profit-loss.profit {
+            color: #4ade80;
+        }
+        
+        .profit-loss.loss {
+            color: #f87171;
+        }
+        
+        .no-holdings {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        .stock-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .stock-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        
+        .stock-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .stock-symbol {
+            font-weight: 600;
+            color: var(--accent-light);
+            font-size: 0.9rem;
+        }
+        
+        .stock-name {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        .btn-select {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-select:hover {
+            background: var(--accent-light);
+        }
+        
+        .stock-details {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .stock-header h3 {
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .stock-symbol {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .current-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 5px;
+        }
+        
+        .price-change {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .price-change.positive {
+            color: #4ade80;
+        }
+        
+        .price-change.negative {
+            color: #f87171;
+        }
+        
+        .stock-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn-trade {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-buy {
+            background: #4ade80;
+            color: white;
+        }
+        
+        .btn-buy:hover {
+            background: #22c55e;
+        }
+        
+        .btn-sell {
+            background: #f87171;
+            color: white;
+        }
+        
+        .btn-sell:hover {
+            background: #ef4444;
+        }
+        
+        .chart-container {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-insights {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .ai-insight {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            background: rgba(110, 59, 255, 0.1);
+        }
+        
+        .insight-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .insight-message {
+            color: var(--text);
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+        
+        .ai-insight.volatility {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .ai-insight.blue_chip {
+            border-left-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .ai-insight.stable {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Trade Modal */
+        .trade-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .trade-modal-content {
+            background: var(--secondary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 50px rgba(110, 59, 255, 0.5);
+        }
+        
+        .trade-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .trade-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .trade-input-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .trade-input-group input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .trade-input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .trade-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .trade-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .trade-summary-item:last-child {
+            margin-bottom: 0;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 8px;
+        }
+        
+        .trade-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .trade-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .trade-buttons button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        #cancel-trade {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+        
+        #cancel-trade:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* --- START: Styles for Cyber Quiz --- */
+        #cyber-quiz-container {
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 650px;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #212529;
+            position: relative;
+        }
+
+        #cyber-quiz-container h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #212529;
+            border-bottom: 2px solid rgba(0,0,0, 0.1);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: unset;
+            text-shadow: none;
+        }
+
+        #cyber-quiz-container #question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        #cyber-quiz-container .answer-btn {
+            background: rgba(255, 255, 255, 0.5);
+            color: #212529;
+            font-weight: 500;
+            width: 100%;
+            border: 2px solid rgba(0,0,0, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #cyber-quiz-container .answer-btn:hover:not([disabled]) {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-color: #6a11cb;
+        }
+        
+        #cyber-quiz-container .answer-btn.correct {
+            background-color: #198754;
+            color: white;
+            border-color: #198754;
+        }
+
+        #cyber-quiz-container .answer-btn.incorrect {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        #cyber-quiz-container .answer-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        #cyber-quiz-container #next-btn, #cyber-quiz-container #restart-btn {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            font-weight: 500;
+            width: 150px;
+            border: 0;
+            padding: 12px;
+            margin: 20px auto 0;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.2s ease;
+        }
+        
+        #cyber-quiz-container #next-btn:hover, #cyber-quiz-container #restart-btn:hover {
+            opacity: 0.9;
+        }
+        
+        #cyber-quiz-container #results { text-align: center; }
+        #cyber-quiz-container #results h2 { font-size: 22px; margin-bottom: 15px; }
+        #cyber-quiz-container #results p { font-size: 18px; margin-bottom: 20px; }
+        #cyber-quiz-container #restart-btn { display: block; }
+        #cyber-quiz-container .hide { display: none; }
+
+        /* --- END: Styles for Cyber Quiz --- */
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+            }
+            
+            .tax-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .simulation-section {
+                padding: 20px;
+            }
+            
+            .video-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .simulator-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .trade-modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video id="video-background" autoplay muted loop>
+        <source src="{{ url_for('static', filename='video/space.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="video-controls">
+        <button class="video-control-btn" id="play-pause"><i class="fas fa-pause"></i></button>
+        <button class="video-control-btn" id="brightness"><i class="fas fa-sun"></i></button>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-icon"><i class="fas fa-badge-check"></i></div>
+        <div class="notification-text">Achievement unlocked!</div>
+    </div>
+
+    <div class="modal" id="quiz-modal">
+        <div class="modal-content" style="padding: 0; background: transparent; border: none; box-shadow: none; max-width: 650px;">
+            <div id="cyber-quiz-container">
+                 <span class="close-modal" id="close-quiz" style="color: black; text-shadow: 0 0 5px white; position: absolute; top: 10px; right: 20px; z-index: 10;">&times;</span>
+                 <h1>Cybersecurity & Online Safety Quiz</h1>
+                 <div id="quiz-section">
+                    <h2 id="question">Question goes here</h2>
+                    <div id="answer-buttons">
+                        </div>
+                    <button id="next-btn">Next</button>
+                </div>
+        
+                <div id="results-section" class="hide">
+                     <div id="results">
+                        <h2>Quiz Complete!</h2>
+                        <p id="score-text">You scored X out of Y</p>
+                        <button id="restart-btn">Restart Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Gullak Logo">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Modules</a></li>
+                        <li><a href="#">Simulations</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </nav>
+                <div class="user-profile" id="user-profile">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80" alt="User Avatar" class="user-avatar">
+                    <span>{{ user.name or 'Arjun' }}</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Wealth Builders</h1>
+            <p>Embark on a space-themed journey through the galaxy of personal finance. Learn banking, trading, taxes, and more in a fun, gamified environment.</p>
+            <button class="cta-button" id="main-cta">Launch Your Journey</button>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Core Modules</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Simulated Learning</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Mission Features</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                <h3 class="feature-title">Complete Simulation</h3>
+                <p class="feature-desc">Practice trading and investing with virtual money in real market conditions. Learn without risk.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                <h3 class="feature-title">Rewarding System</h3>
+                <p class="feature-desc">Earn badges, points, and unlock new levels as you master financial concepts and complete challenges.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3 class="feature-title">Progress Tracking</h3>
+                <p class="feature-desc">Monitor your learning journey with detailed reports, graphs, and personalized recommendations.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Learning Modules</h2>
+        <div class="modules">
+            <div class="module-card" data-module="bank-accounts">
+                <div class="module-header">
+                    <h3 class="module-title">Bank Accounts</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Learn how to create and manage bank accounts, deposits, and withdrawals.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>80%</span>
+                    </div>
+                    <a href="#" class="start-module">Continue</a>
+                </div>
+            </div>
+            
+            <div class="module-card" data-module="demat-accounts">
+                <div class="module-header">
+                    <h3 class="module-title">Demat Accounts</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Understand how to open and use Demat accounts for trading.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>30%</span>
+                    </div>
+                    <a href="#" class="start-module">Continue</a>
+                </div>
+            </div>
+            
+            <div class="module-card" data-module="trading-basics">
+                <div class="module-header">
+                    <h3 class="module-title">Trading Basics</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Learn the fundamentals of stock trading and cryptocurrency.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>45%</span>
+                    </div>
+                    <a href="#" class="start-module">Continue</a>
+                </div>
+            </div>
+            
+            <div class="module-card" data-module="mutual-funds">
+                <div class="module-header">
+                    <h3 class="module-title">Mutual Funds & SIPs</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Explore mutual funds and systematic investment plans.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>20%</span>
+                    </div>
+                    <a href="#" class="start-module">Start</a>
+                </div>
+            </div>
+            
+            <div class="module-card" data-module="insurance">
+                <div class="module-header">
+                    <h3 class="module-title">Insurance</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Learn about health, life, and general insurance policies.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 10%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>10%</span>
+                    </div>
+                    <a href="#" class="start-module">Start</a>
+                </div>
+            </div>
+            
+            <div class="module-card" id="cyber-quiz-card">
+                <div class="module-header" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
+                    <h3 class="module-title">Cybersecurity Quiz</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-desc">Test your knowledge of online safety and how to protect yourself from cyber threats.</p>
+                    <a href="#" class="start-module" style="background: rgba(106, 17, 203, 0.2); border-color: #6a11cb; color: #a56bff;">Take Quiz</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tax-section">
+            <div class="tax-header">
+                <h2 class="tax-title">Taxation Mastery</h2>
+                <div class="tax-progress">
+                    <div class="progress-percent">0%</div>
+                    <div class="progress-label">Complete</div>
+                </div>
+            </div>
+            <div class="tax-content">
+                <div class="tax-desc">
+                    <p>Optimize your tax strategy and understand investment tax implications. Learn about income tax, capital gains, and tax-saving instruments.</p>
+                    <p>This module includes interactive simulations for filing tax returns and calculating tax liabilities.</p>
+                    <button class="cta-button" id="start-tax" style="margin-top: 20px;">Start Learning</button>
+                </div>
+                <div class="tax-image"></div>
+            </div>
+        </div>
+
+        <div class="badges-section">
+            <h2 class="section-title">Your Badges</h2>
+            <div class="badges-container">
+                <div class="badge" data-badge="saver-pro">
+                    <div class="badge-icon"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="badge-title">Saver Pro</div>
+                    <div class="badge-desc">Earned for completing banking module</div>
+                </div>
+                <div class="badge" data-badge="stock-trader">
+                    <div class="badge-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="badge-title">Stock Trader</div>
+                    <div class="badge-desc">Completed trading basics</div>
+                </div>
+                <div class="badge locked" data-badge="tax-guru">
+                    <div class="badge-icon"><i class="fas fa-landmark"></i></div>
+                    <div class="badge-title">Tax Guru</div>
+                    <div class="badge-desc">Locked - complete tax module</div>
+                </div>
+                <div class="badge locked" data-badge="property-mogul">
+                    <div class="badge-icon"><i class="fas fa-house-user"></i></div>
+                    <div class="badge-title">Property Mogul</div>
+                    <div class="badge-desc">Locked - complete asset analysis</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="simulation-section">
+            <h2 class="section-title">Financial Simulations</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-university"></i></div>
+                    <h3 class="feature-title">Open a Bank Account</h3>
+                    <p class="feature-desc">Practice the process of opening a bank account with our simulation.</p>
+                    <button class="cta-button simulation-btn" data-simulation="bank-account" style="margin-top: 15px; width: 100%;">Start Simulation</button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3 class="feature-title">Trade Mock Stocks</h3>
+                    <p class="feature-desc">Practice trading with virtual money in real market conditions.</p>
+                    <button class="cta-button simulation-btn" data-simulation="stock-trading" style="margin-top: 15px; width: 100%;">Start Simulation</button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <h3 class="feature-title">Budgeting Exercises</h3>
+                    <p class="feature-desc">Learn to manage your finances with interactive budgeting tools.</p>
+                    <button class="cta-button simulation-btn" data-simulation="budgeting" style="margin-top: 15px; width: 100%;">Start Simulation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trading Simulator Section -->
+    <div class="container">
+        <div class="trading-simulator" id="trading-simulator">
+            <div class="simulator-header">
+                <h2>🚀 Stock Trading Simulator</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 0;">Practice trading with virtual money in real market conditions</p>
+            </div>
+            
+            <div class="simulator-grid">
+                <!-- Portfolio Panel -->
+                <div class="portfolio-panel">
+                    <h3 class="panel-title">💼 Your Portfolio</h3>
+                    <div class="portfolio-summary">
+                        <div class="portfolio-item">
+                            <span class="portfolio-label">Cash Balance</span>
+                            <span class="portfolio-value" id="cash-balance">₹1,00,000</span>
+                        </div>
+                        <div class="portfolio-item">
+                            <span class="portfolio-label">Holdings Value</span>
+                            <span class="portfolio-value" id="holdings-value">₹0</span>
+                        </div>
+                        <div class="portfolio-item">
+                            <span class="portfolio-label">Total Value</span>
+                            <span class="portfolio-value" id="total-value">₹1,00,000</span>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color: var(--accent-light); margin: 20px 0 10px 0; font-size: 1rem;">Your Holdings</h4>
+                    <div class="holdings-list" id="holdings-list">
+                        <div class="no-holdings">No stocks in portfolio</div>
+                    </div>
+                </div>
+                
+                <!-- Stock Panel -->
+                <div class="stock-panel">
+                    <h3 class="panel-title">📈 Stock Trading</h3>
+                    
+                    <!-- Stock Selection -->
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-secondary); margin-bottom: 10px; font-size: 0.9rem;">Select a Stock:</h4>
+                        <div class="stock-list" id="stock-list">
+                            <!-- Stock list will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Stock Details -->
+                    <div id="stock-details" style="display: none;">
+                        <!-- Stock details will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Stock Chart -->
+                    <div class="chart-container" style="display: none;" id="chart-container">
+                        <canvas id="stock-chart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- AI Insights Panel -->
+                <div class="insights-panel">
+                    <h3 class="panel-title">🤖 Gullak Guru</h3>
+                    <div class="ai-insights" id="ai-insights">
+                        <div style="text-align: center; color: var(--text-secondary); font-style: italic; padding: 20px;">
+                            Select a stock to get AI-powered insights!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Trade Modal -->
+    <div class="trade-modal" id="trade-modal">
+        <div class="trade-modal-content">
+            <h3 id="trade-title" style="color: var(--accent-light); margin-bottom: 20px; text-align: center;">Buy Stock</h3>
+            
+            <div class="trade-form">
+                <div class="trade-input-group">
+                    <label>Stock</label>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
+                        <span id="trade-stock-name">-</span>
+                        <span id="trade-stock-price">₹0</span>
+                    </div>
+                </div>
+                
+                <div class="trade-input-group">
+                    <label for="trade-quantity">Quantity</label>
+                    <input type="number" id="trade-quantity" min="1" value="1">
+                </div>
+                
+                <div class="trade-summary">
+                    <div class="trade-summary-item">
+                        <span>Transaction Fee</span>
+                        <span id="trade-fees">₹20</span>
+                    </div>
+                    <div class="trade-summary-item">
+                        <span>Total Amount</span>
+                        <span id="trade-total">₹0</span>
+                    </div>
+                </div>
+                
+                <div class="trade-buttons">
+                    <button id="cancel-trade">Cancel</button>
+                    <button id="confirm-trade" class="btn-trade btn-buy">Buy</button>
+                </div>
+            </div>
+            
+            <input type="hidden" id="trade-type" value="buy">
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="final-cta">
+            <h2>Ready to Explore the Financial Universe?</h2>
+            <p>Join thousands of young investors building their financial future. Start your cosmic journey today.</p>
+            <button class="cta-button" id="final-cta">Begin Mission</button>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Wealth Builders</div>
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Wealth Builders. All rights reserved. Rigas 15-10 Financial Education
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- START: Main Page Script ---
+        const userData = { name: "Tanya", level: "Wealth Builder", points: 1250, badges: ["saver-pro", "stock-trader"], progress: { "bank-accounts": 80, "demat-accounts": 30, "trading-basics": 45, "mutual-funds": 20, "insurance": 10, "loans": 5, "taxation": 0 }, completedQuizzes: [] };
+        const video = document.getElementById('video-background');
+        const playPauseBtn = document.getElementById('play-pause');
+        const brightnessBtn = document.getElementById('brightness');
+        const notification = document.getElementById('notification');
+        const quizModal = document.getElementById('quiz-modal');
+        const closeQuizBtn = document.getElementById('close-quiz');
+        const userProfile = document.getElementById('user-profile');
+        const mainCta = document.getElementById('main-cta');
+        const startTaxBtn = document.getElementById('start-tax');
+        const finalCta = document.getElementById('final-cta');
+        const moduleCards = document.querySelectorAll('.module-card');
+        const badges = document.querySelectorAll('.badge');
+        const simulationBtns = document.querySelectorAll('.simulation-btn');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => { bar.style.width = width; }, 500);
+            });
+            setupEventListeners();
+            updateUserProfile();
+            if (video) video.playbackRate = 0.7;
+        });
+
+        function setupEventListeners() {
+            if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
+            if (brightnessBtn) brightnessBtn.addEventListener('click', adjustBrightness);
+            if (userProfile) userProfile.addEventListener('click', showUserProfile);
+            if (mainCta) mainCta.addEventListener('click', startJourney);
+            if (startTaxBtn) startTaxBtn.addEventListener('click', startTaxModule);
+            if (finalCta) finalCta.addEventListener('click', startJourney);
+            
+            moduleCards.forEach(card => {
+                // Exclude the quiz card from the generic module handler
+                if (card.id !== 'cyber-quiz-card') {
+                    card.addEventListener('click', () => startModule(card.dataset.module));
+                }
+            });
+
+            badges.forEach(badge => badge.addEventListener('click', () => showBadgeInfo(badge.dataset.badge)));
+            simulationBtns.forEach(btn => btn.addEventListener('click', () => startSimulation(btn.dataset.simulation)));
+            if (closeQuizBtn) closeQuizBtn.addEventListener('click', closeQuiz);
+            
+            // Event listener for the new quiz card
+            const cyberQuizCard = document.getElementById('cyber-quiz-card');
+            if(cyberQuizCard) {
+                cyberQuizCard.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal('quiz-modal');
+                    startCyberQuiz(); 
+                });
+            }
+        }
+
+        function togglePlayPause() {
+            if (video.paused) { video.play(); playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>'; } 
+            else { video.pause(); playPauseBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        }
+
+        function adjustBrightness() {
+            if (video.style.filter.includes('brightness(1.5)')) { video.style.filter = 'brightness(1.1) contrast(1.1)'; brightnessBtn.innerHTML = '<i class="fas fa-sun"></i>'; } 
+            else { video.style.filter = 'brightness(1.5) contrast(1.2)'; brightnessBtn.innerHTML = '<i class="fas fa-sun bright"></i>'; }
+        }
+
+        function showUserProfile() { alert(`${userData.name}\nLevel: ${userData.level}\nPoints: ${userData.points.toLocaleString()}\nBadges: ${userData.badges.length}/12`); }
+        function startJourney() { showNotification('Welcome to your financial journey!'); for (const module in userData.progress) { if (userData.progress[module] < 100) { startModule(module); break; } } }
+        function startTaxModule() { startModule('taxation'); }
+        function startModule(moduleId) { if(moduleId) showNotification(`Starting ${moduleId.replace(/-/g, ' ')} module`); }
+        function showBadgeInfo(badgeId) { if (userData.badges.includes(badgeId)) { alert(`You've earned the ${badgeId.replace(/-/g, ' ')} badge!`); } else { alert(`Complete the required module to unlock the ${badgeId.replace(/-/g, ' ')} badge!`); } }
+        function startSimulation(simulationId) { showNotification(`Starting ${simulationId.replace(/-/g, ' ')} simulation`); }
+
+        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+        function closeQuiz() { quizModal.style.display = 'none'; }
+        
+        function updateUserProfile() { if (userData.points >= 2000) { userData.level = "Financial Explorer"; } else if (userData.points >= 1500) { userData.level = "Wealth Builder"; } else { userData.level = "Financial Beginner"; } }
+        function showNotification(message) { notification.querySelector('.notification-text').textContent = message; notification.classList.add('show'); setTimeout(() => { notification.classList.remove('show'); }, 3000); }
+        // --- END: Main Page Script ---
+    </script>
+    <script>
+        // --- START: Cyber Quiz Script ---
+        const cq_questions = [
+            { question: "You receive an SMS from an unknown number claiming you've won a lottery and asking you to click a link to claim your prize. What is this an example of?", answers: [{ text: "A genuine prize announcement", correct: false }, { text: "Phishing (or 'Smishing')", correct: true }, { text: "A wrong number", correct: false }, { text: "A bank security alert", correct: false }] },
+            { question: "Which of the following is the STRONGEST password?", answers: [{ text: "MyName123", correct: false }, { text: "password", correct: false }, { text: "BlueCar!Run_Fast21", correct: true }, { text: "12345678", correct: false }] },
+            { question: "On a social media profile (like Instagram or Facebook), what piece of information is generally UNSAFE to make public?", answers: [{ text: "Your favourite movie", correct: false }, { text: "A picture of your pet", correct: false }, { text: "Your home address and phone number", correct: true }, { text: "Your username or handle", correct: false }] },
+            { question: "You see an online ad for a brand new smartphone for only ₹2,000. This is most likely:", answers: [{ text: "A legitimate festive season deal", correct: false }, { text: "A typing error in the price", correct: false }, { text: "A scam to steal your money or data", correct: true }, { text: "An exclusive offer for new customers", correct: false }] },
+            { question: "What is 'Two-Factor Authentication' (2FA)?", answers: [{ text: "A password that is twice as long", correct: false }, { text: "A second layer of security, often a code sent to your phone", correct: true }, { text: "Having two different passwords for one account", correct: false }, { text: "A feature only used by banks", correct: false }] },
+            { question: "What is the primary purpose of antivirus software?", answers: [{ text: "To make your computer run faster", correct: false }, { text: "To block unwanted online ads", correct: false }, { text: "To clean your computer's hard drive of old files", correct: false }, { text: "To detect and remove malicious software (malware)", correct: true }] },
+            { question: "If a stranger online asks you for personal pictures or videos, what is the safest thing to do?", answers: [{ text: "Refuse, block the person, and tell a trusted adult", correct: true }, { text: "Send them an old picture to be polite", correct: false }, { text: "Ask them why they want it first", correct: false }, { text: "Ignore the message but don't block them", correct: false }] }
+        ];
+
+        const cq_questionElement = document.getElementById("question");
+        const cq_answerButtonsElement = document.getElementById("answer-buttons");
+        const cq_nextButton = document.getElementById("next-btn");
+        const cq_quizSection = document.getElementById("quiz-section");
+        const cq_resultsSection = document.getElementById("results-section");
+        const cq_scoreText = document.getElementById("score-text");
+        const cq_restartButton = document.getElementById("restart-btn");
+
+        let cq_currentQuestionIndex = 0;
+        let cq_score = 0;
+
+        function startCyberQuiz() {
+            cq_currentQuestionIndex = 0;
+            cq_score = 0;
+            cq_nextButton.innerHTML = "Next";
+            cq_resultsSection.classList.add("hide");
+            cq_quizSection.classList.remove("hide");
+            showCyberQuestion();
+        }
+
+        function showCyberQuestion() {
+            resetCyberState();
+            let currentQuestion = cq_questions[cq_currentQuestionIndex];
+            let questionNo = cq_currentQuestionIndex + 1;
+            cq_questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+            currentQuestion.answers.forEach(answer => {
+                const button = document.createElement("button");
+                button.innerHTML = answer.text;
+                button.classList.add("answer-btn");
+                cq_answerButtonsElement.appendChild(button);
+                if (answer.correct) {
+                    button.dataset.correct = answer.correct;
+                }
+                button.addEventListener("click", selectCyberAnswer);
+            });
+        }
+
+        function resetCyberState() {
+            cq_nextButton.style.display = "none";
+            while (cq_answerButtonsElement.firstChild) {
+                cq_answerButtonsElement.removeChild(cq_answerButtonsElement.firstChild);
+            }
+        }
+
+        function selectCyberAnswer(e) {
+            const selectedBtn = e.target;
+            const isCorrect = selectedBtn.dataset.correct === "true";
+            
+            if (isCorrect) {
+                selectedBtn.classList.add("correct");
+                cq_score++;
+            } else {
+                selectedBtn.classList.add("incorrect");
+            }
+
+            Array.from(cq_answerButtonsElement.children).forEach(button => {
+                if (button.dataset.correct === "true") {
+                    button.classList.add("correct");
+                }
+                button.disabled = true;
+            });
+
+            cq_nextButton.style.display = "block";
+        }
+        
+        function showCyberResults() {
+            cq_quizSection.classList.add("hide");
+            cq_resultsSection.classList.remove("hide");
+            cq_scoreText.innerHTML = `You scored ${cq_score} out of ${cq_questions.length}!`;
+        }
+
+        function handleCyberNextButton() {
+            cq_currentQuestionIndex++;
+            if (cq_currentQuestionIndex < cq_questions.length) {
+                showCyberQuestion();
+            } else {
+                showCyberResults();
+            }
+        }
+
+        cq_nextButton.addEventListener("click", () => {
+            if (cq_currentQuestionIndex < cq_questions.length) {
+                handleCyberNextButton();
+            }
+        });
+        
+        cq_restartButton.addEventListener("click", startCyberQuiz);
+        // --- END: Cyber Quiz Script ---
+    </script>
+    
+    <!-- Trading Simulator Script -->
+    <script src="{{ url_for('static', filename='js/trading-simulator.js') }}"></script>
+</body>
+</html>

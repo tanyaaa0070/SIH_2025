@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chillar Party - Start Your Money Adventure!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #f0fdf4;
+        }
+
+        .bg-gradient-green-pink {
+            background-image: linear-gradient(135deg, #d1fae5, #ecfccb);
+        }
+
+        .bg-gradient-yellow-orange {
+            background-image: linear-gradient(135deg, #fef08a, #fed7aa);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gradient-green-pink min-h-screen">
+
+    <div class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Gullak Logo" class="h-16 ">
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-green-700 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-green-700 font-medium">Lessons</a>
+                    <a href="#" class="text-gray-700 hover:text-green-700 font-medium">Games</a>
+                    <a href="{{ url_for('logout') }}" class="text-gray-700 hover:text-red-700 font-medium">Logout</a>
+                </nav>
+                <div class="flex items-center space-x-3">
+                    <img class="h-9 w-9 rounded-full object-cover border-2 border-green-500" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80" alt="User Avatar">
+                    <span class="font-medium text-gray-800">{{ user.name or 'Rohan' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="flex flex-col items-center justify-center text-center py-8">
+            <div class="flex items-center space-x-2">
+                <img src="https://placehold.co/50x50/A7F3D0/065F46?text=☘️" alt="Leaf icon" class="w-8 h-8 sm:w-10 sm:h-10">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-[#065F46]">Chillar Party</h1>
+                <img src="https://placehold.co/50x50/A7F3D0/065F46?text=☘️" alt="Leaf icon" class="w-8 h-8 sm:w-10 sm:h-10">
+            </div>
+            <p class="text-lg sm:text-xl text-gray-700 mt-2">Learn about money with our forest friends!</p>
+            <p class="text-sm text-gray-500 mt-1 italic">For curious kids aged 4-9 years</p>
+        </header>
+
+        <main class="relative bg-white rounded-3xl overflow-hidden shadow-2xl mt-8">
+            <div class="video-container">
+                <video autoplay muted loop playsinline>
+                    <source src="{{ url_for('static', filename='video/v2.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-white" style="background-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent);">
+                <h2 class="text-2xl sm:text-4xl font-bold mb-2">Start Your Money Adventure!</h2>
+                <div class="flex items-center space-x-2">
+                    <button id="let-begin-btn" class="flex items-center px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-sm sm:text-base text-gray-800 bg-yellow-400 hover:bg-yellow-500 transition-colors duration-200 shadow-lg">
+                        Let's Begin!
+                        <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-gray-800 text-xs px-2 py-1 rounded-full opacity-80">Easy</div>
+                </div>
+            </div>
+        </main>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-green-300">
+                <div>
+                    <div class="flex items-center space-x-2">
+                         <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">What is Money?</h3>
+                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">Easy</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Learn about coins, notes and what money means!</p>
+                </div>
+                <button onclick="startLearning('What is Money?')" class="mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-green-pink shadow-md hover:shadow-lg transition-shadow duration-200">Start Learning!</button>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-green-300">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">Saving Money</h3>
+                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">Easy</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Discover the magic of piggy banks and saving!</p>
+                </div>
+                <button onclick="startLearning('Saving Money')" class="mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-green-pink shadow-md hover:shadow-lg transition-shadow duration-200">Start Learning!</button>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-yellow-400">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">Counting Game</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">Fun</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Count coins and numbers with our forest friends!</p>
+                </div>
+                <button onclick="startLearning('Counting Game')" class="mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-yellow-orange shadow-md hover:shadow-lg transition-shadow duration-200">Play Now!</button>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-yellow-400">
+                <div>
+                    <div class="flex items-center space-x-2">
+                         <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 0v6m0-6L9 13"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">Math Adventures</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">Learning</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Basic addition and subtraction with forest treasures!</p>
+                </div>
+                <button onclick="startLearning('Math Adventures')" class="mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-yellow-orange shadow-md hover:shadow-lg transition-shadow duration-200">Play Now!</button>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-yellow-400">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">Trading Tree Game</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">Game</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Grow your money tree by making smart trading choices!</p>
+                </div>
+                <a href="https://trading-tree-interac-gub4.bolt.host" target="_blank" class="text-center mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-yellow-orange shadow-md hover:shadow-lg transition-shadow duration-200">Play Game!</a>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-xl flex flex-col justify-between border-2 border-yellow-400">
+                <div>
+                    <div class="flex items-center space-x-2">
+                         <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <h3 class="text-xl font-bold text-gray-800">Budgeting Power-Up</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full">Game</span>
+                    </div>
+                    <p class="text-gray-600 mt-4">Power up your character by making smart budget decisions in this adventure.</p>
+                </div>
+                <a href="https://ehmewjuoifjfaeawa4bbygvix.bolt.host" target="_blank" class="text-center mt-6 w-full py-3 px-4 rounded-full font-bold text-gray-800 bg-gradient-yellow-orange shadow-md hover:shadow-lg transition-shadow duration-200">Play Game!</a>
+            </div>
+
+        </section>
+
+        <section class="bg-white rounded-3xl p-6 shadow-xl mt-12 flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 border-2 border-gray-300">
+            <div class="flex-shrink-0">
+                <img src="https://placehold.co/128x128/ECFCCB/065F46?text=🦉" alt="Professor Hoot" class="w-32 h-32 rounded-full border-4 border-gray-200 object-cover">
+            </div>
+            <div class="text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start space-x-2 mb-2">
+                    <h4 class="text-2xl font-bold text-gray-800">Meet Professor Hoot!</h4>
+                </div>
+                <p class="text-gray-600">"Hello young learners! I'm here to guide you through the wonderful world of money. Together with my forest friends, we'll make learning fun and exciting!"</p>
+                <div class="flex flex-wrap justify-center md:justify-start mt-4 space-x-2">
+                    <button onclick="showFeature('Rewards System')" class="flex items-center text-sm px-4 py-2 rounded-full font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200 shadow-md">
+                        <span class="mr-1">⭐</span> Rewards System
+                    </button>
+                    <button onclick="showFeature('Interactive Games')" class="flex items-center text-sm px-4 py-2 rounded-full font-semibold text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 shadow-md">
+                        <span class="mr-1">🎮</span> Interactive Games
+                    </button>
+                    <button onclick="showFeature('Story Mode')" class="flex items-center text-sm px-4 py-2 rounded-full font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors duration-200 shadow-md">
+                        <span class="mr-1">📖</span> Story Mode
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-12 text-center">
+            <h4 class="text-2xl font-bold text-gray-800">Track Your Adventure! 🏆</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-gray-200">
+                    <img src="https://placehold.co/60x60/FFFFFF/000000?text=📚" alt="Lessons icon" class="mx-auto mb-2">
+                    <div class="text-2xl font-bold text-gray-800">0/8</div>
+                    <div class="text-gray-500 text-sm">Lessons</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-gray-200">
+                    <img src="https://placehold.co/60x60/FFFFFF/000000?text=🕹️" alt="Games Won icon" class="mx-auto mb-2">
+                    <div class="text-2xl font-bold text-gray-800">0</div>
+                    <div class="text-gray-500 text-sm">Games Won</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-gray-200">
+                    <img src="https://placehold.co/60x60/FFFFFF/000000?text=🪙" alt="Coins Earned icon" class="mx-auto mb-2">
+                    <div class="text-2xl font-bold text-gray-800">0</div>
+                    <div class="text-gray-500 text-sm">Coins Earned</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-gray-200">
+                    <img src="https://placehold.co/60x60/FFFFFF/000000?text=📜" alt="Certificates icon" class="mx-auto mb-2">
+                    <div class="text-2xl font-bold text-gray-800">0</div>
+                    <div class="text-gray-500 text-sm">Certificates</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="videoModal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 justify-center items-center p-4">
+        <div class="bg-white p-2 rounded-2xl shadow-2xl relative w-11/12 md:w-2/3 lg:w-1/2">
+            <button id="closeModalBtn" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full p-2 z-10 shadow-lg hover:bg-gray-200 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="aspect-w-16 aspect-h-9">
+                 <video id="lessonVideo" class="w-full rounded-lg" controls>
+                    <source src="{{ url_for('static', filename='video/v2.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Placeholder function for "Professor Hoot" buttons
+        function showFeature(featureName) {
+            alert(`Exploring the "${featureName}" feature...`);
+        }
+        
+        // Add event listener for the "Let's Begin!" button
+        document.getElementById('let-begin-btn').addEventListener('click', function() {
+            alert("Starting your money adventure!");
+        });
+
+        // --- Video Modal Logic ---
+        const videoModal = document.getElementById('videoModal');
+        const lessonVideo = document.getElementById('lessonVideo');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        function openVideoModal() {
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+            lessonVideo.play();
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex');
+            lessonVideo.pause();
+            lessonVideo.currentTime = 0; // Reset video to the beginning
+        }
+        
+        // Updated startLearning function to handle the video modal
+        function startLearning(lessonName) {
+            if (lessonName === 'What is Money?') {
+                openVideoModal();
+            } else {
+                alert(`Starting the "${lessonName}" lesson...`);
+            }
+        }
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeVideoModal);
+        }
+        
+        // Close modal when clicking on the background overlay
+        if (videoModal) {
+            videoModal.addEventListener('click', function(event) {
+                if (event.target === videoModal) {
+                    closeVideoModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
